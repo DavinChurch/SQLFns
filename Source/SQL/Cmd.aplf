@@ -25,17 +25,13 @@
  :If '∇'∊⊃⊃clauses ⋄ fn←(⊃clauses)~'∇' ⋄ clauses←1↓clauses ⋄ :Else ⋄ fn←'Get' ⋄ :EndIf
  :If dyad←'⍺'∊fn
      left←(+/fn∊'⍺')↑clauses ⋄ clauses←(⍴left)↓clauses
-     :If 1=⍴left ⋄ left←⊃left ⋄ :EndIf ⋄ fn←fn~'⍺'
+     :If 1=⍴left ⋄ left←⊃left ⋄ :EndIf ⋄ fn~←'⍺'
  :EndIf
  right←clauses ⍝ Anything remaining is assumed to be the function's right argument
  :If '⍵'∊fn
      right←(+/fn∊'⍵')↑clauses ⋄ clauses←(⍴right)↓clauses
-     :If 1=⍴right ⋄ right←⊃right ⋄ :EndIf ⋄ fn←fn~'⍵'
+     :If 1=⍴right ⋄ right←⊃right ⋄ :EndIf ⋄ fn~←'⍵'
  :EndIf
 ⍝ Now call the subroutine they requested (assuming there's no local-variable shadowing)
- :Trap 0
-     sql←⍎(dyad/'left '),fn,' right'
- :Else
-     ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
- :EndTrap
+ :Trap 0 ⋄ sql←⍎(dyad/'left '),fn,' right' ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
 ⍝? Allow for an '⍎' option to run arbitrary code??

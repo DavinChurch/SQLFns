@@ -12,8 +12,8 @@
 ⍝ Converted to Dyalog 8 November 2019 by Davin Church of Creative Software Design
 
  :If 0=⎕NC'left' ⋄ left←'' ⋄ :EndIf ⋄ pp←'()' '(,)' ⋄ addp←0 0 ⋄ cnt←0 0
- :If 1<|≡left ⋄ addp←addp∨pp∊left ⋄ cnt[1]←⍴left←left~pp,⊂'' ⋄ left←⊃Or/(⊂''),left ⋄ :EndIf
- :If 1<|≡right ⋄ addp←addp∨pp∊right ⋄ cnt[2]←⍴right←right~pp,⊂'' ⋄ right←⊃Or/(⊂''),right ⋄ :EndIf
- addp←addp∨pp∊left right ⋄ left←(~(⊂left)∊pp)/left ⋄ right←(~(⊂right)∊pp)/right ⋄ cnt←cnt+(cnt=0)××⊃¨⍴¨left right
+ :If 1<|≡left ⋄ addp∨←pp∊left ⋄ cnt[1]←⍴left←left~pp,⊂'' ⋄ left←⊃Or/(⊂''),left ⋄ :EndIf
+ :If 1<|≡right ⋄ addp∨←pp∊right ⋄ cnt[2]←⍴right←right~pp,⊂'' ⋄ right←⊃Or/(⊂''),right ⋄ :EndIf
+ addp∨←pp∊left right ⋄ left←(~(⊂left)∊pp)/left ⋄ right←(~(⊂right)∊pp)/right ⋄ cnt+←(cnt=0)××≢¨left right
  both←left,((∧/×(⍴left),⍴right)/' Or '),right
  :If ∨/addp∧(×⍴both),1<+/cnt ⋄ both←'()'∆Q both ⋄ :EndIf

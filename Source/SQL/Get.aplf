@@ -32,10 +32,10 @@
  'Length Error'⎕SIGNAL 5/⍨(2≤|≡clauses)∧1>¯1↑1,⍴clauses
  :If 0=⎕NC'options' ⋄ options←0⍴⊂'' ⋄ :EndIf
  :If 1=|≡options ⋄ options←⊂options ⋄ :EndIf
- :If unionall←×⊃⍴options←(,,¨options)~⊂''
+ :If unionall←×≢options←(,,¨options)~⊂''
      unionall←~∨/t←∧/¨'∪'=(1⌈⍴¨options)↑¨options ⋄ options←(~t)/options
  :EndIf
- :If quest←×⊃⍴options
+ :If quest←×≢options
      quest←⌈/0,t←+/¨'?'=(1⌈⍴¨options)↑¨options ⋄ options←(t=0)/options
  :EndIf
 
@@ -48,37 +48,23 @@
          :Else
              sql←(options Select select),(From from),(Where where),(OrderBy order),(GroupBy group),Having having
          :EndIf
-     :Else
-         ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
-     :EndTrap
+     :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
  :Else ⍝ Generate a Select/Union statement
      'Length Error (Union)'⎕SIGNAL 5/⍨4<¯1↑⍴clauses ⋄ order←0⍴⊂''
-     :If 4≤¯1↑⍴clauses ⋄ :AndIf 1<⍴t←order←clauses[;4] ⋄ :AndIf 1<⍴t←order←(×⊃¨⍴¨∆dim¨t)/t
+     :If 4≤¯1↑⍴clauses ⋄ :AndIf 1<⍴t←order←clauses[;4] ⋄ :AndIf 1<⍴t←order←(×≢¨∆dim¨t)/t
          'Domain Error (Order By)'⎕SIGNAL 11/⍨~∧/2≡/t
      :EndIf
      order←⊃order ⋄ sql←''
      :For clauses :In ↓clauses
          select from where←3↑clauses,3⍴⊂''
-         :If ×⍴sql ⋄ sql←sql,' Union ',unionall/'All ' ⋄ :EndIf
+         :If ×⍴sql ⋄ sql,←' Union ',unionall/'All ' ⋄ :EndIf
          :If 0∊⍴from
              t←~(∆uc⊃¨∆cut¨options)∊∆uc'Distinct' 'Top' ⍝ Option keywords to ignore when selecting constants
-             :Trap 0
-                 sql←sql,(t/options)Select select
-             :Else
-                 ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
-             :EndTrap
+             :Trap 0 ⋄ sql,←(t/options)Select select ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
          :Else
-             :Trap 0
-                 sql←sql,(options Select select),(From from),Where where
-             :Else
-                 ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
-             :EndTrap
+             :Trap 0 ⋄ sql,←(options Select select),(From from),Where where ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
          :EndIf
      :EndFor
-     :Trap 0
-         sql←sql,OrderBy order
-     :Else
-         ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
-     :EndTrap
+     :Trap 0 ⋄ sql,←OrderBy order ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
  :EndIf
  sql←(quest⍴'?'),sql ⍝ Allow special prefix code of one or more "?"s

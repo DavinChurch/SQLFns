@@ -8,11 +8,7 @@
  :If 1≥|≡table ⋄ :If 2=⍴⍴table ⋄ table←↓table ⋄ :Else ⋄ table←⊂table ⋄ :EndIf ⋄ :EndIf
  table←(∆dlt¨,,¨table)~⊂''
  'Missing table name to delete from'⎕SIGNAL 11/⍨0∊⍴table
- 'Cannot Delete from joined tables'⎕SIGNAL 11/⍨1<⊃⍴table
+ 'Cannot Delete from joined tables'⎕SIGNAL 11/⍨1<≢table
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨∨/'→><≠∘='∊⊃table
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨∨/'(,)'∊⊃table
- :Trap 0
-     sql←'Delete',From table
- :Else
-     ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
- :EndTrap
+ :Trap 0 ⋄ sql←'Delete',From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap

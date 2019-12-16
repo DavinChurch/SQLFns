@@ -1,4 +1,4 @@
- sql←expression Math data;t;⎕PP;⎕TRAP
+ sql←expression Math data;t;⎕PP
 ⍝∇ Generate the SQL text to call SQL functions and perform calculations involving field names
 ⍝∇ that may need to use the Q utility on the field names before imbedding them in the formulas,
 ⍝∇ but without having to deal with many confusing parentheses, commas, and quotes trying to
@@ -63,22 +63,20 @@
 ⍝ Modified 11 December 2015 by Davin Church and Doug Neman of Creative Software Design
 ⍝ Converted to Dyalog 8 November 2019 by Davin Church of Creative Software Design
 
- ⎕PP←15 ⋄ ⎕TRAP←0 'C' '⎕DM' ⍝? Needs adjustment
  :If 1 3 5 7 9∊⍨10|⎕DR data ⋄ data←,¨data ⋄ :EndIf ⍝ Make sure numbers are separated
- :If 1≥|≡data ⋄ data←⊂data ⋄ :EndIf ⋄ data←,data ⍝ Nest single text arguments
+ :If 1≥|≡data ⋄ data←⊂,data ⋄ :EndIf ⋄ data←,data ⍝ Nest single text arguments
 
- :If (×⍴expression)∧∧/expression∊'_',⎕UCS(47+⍳10),,64 96∘.+⍳26 ⍝ They just provided a function name without any syntax
+ :If (×⍴expression)∧∧/expression∊'_',⎕D,⎕A,819⌶⎕A ⍝ They just provided a function name without any syntax
      expression←expression,'()'∆Q(¯1+2×⍴data)⍴'⎕,' ⍝ Assume they meant to add all these as parameters to a single fn call
  :EndIf
  ('Unequal number of parentheses in expression syntax: ',expression)⎕SIGNAL 11/⍨≠/+/'()'∘.=expression
  ('Mismatched parentheses in expression syntax: ',expression)⎕SIGNAL 11/⍨∨/0>-⌿+\'()'∘.=expression
- ('The number of ⎕ characters in expression (',(⍕+/'⎕'=expression),' does not match the total length of arguments (',(⍕⊃⍴data),')')⎕SIGNAL 1/⍨(⊃⍴data)≠+/'⎕'=expression
+ ('The number of ⎕ characters in expression (',(⍕+/'⎕'=expression),' does not match the total length of arguments (',(⍕≢data),')')⎕SIGNAL 1/⍨(≢data)≠+/'⎕'=expression
 
 ⍝ Encode values differently based on their data type & depth
- t←(⎕UCS 0)≡¨data←(⊂⊂'Null()')Null data ⋄ (t/data)←⊂⊂⊂'Null()' ⋄ t←⎕DR¨data ⋄ ((6=10|t)/t)←3⌊|≡¨(6=10|t)/data
- (((10|t)∊1 3 5 7 9)/data)←⍕¨((10|t)∊1 3 5 7 9)/data ⍝ Simple numeric values are encoded as constant numbers
- (((10|t)∊0 2)/data)←'.'Q¨((10|t)∊0 2)/data ⍝ Simple text values are assumed to be [table.]field names (most common usage)
- ((t∊2)/data)←''''∆Q¨⊃¨(t∊2)/data ⍝ Singly-nested values are assumed to be text strings to be treated as constant text data
- ((t∊3)/data)←⊃¨⊃¨(t∊3)/data ⍝ Doubly-nested values are assumed to be text strings to be treated as pre-formatted arguments
-
+ t←⎕DR data←((⊂⊂'Null()')@{⍵∊⎕UCS 0})data ⋄ t←((3⌊|≡¨data)@{6=10|⍵})t ⍝ Pre-figure depth of nested items
+ ⎕PP←15 ⋄ t←({⍕¨⍵}@{(10|⍵)∊1 3 5 7 9})t ⍝ Simple numeric values are encoded as constant numbers
+ t←({'.'Q¨⍵}@{(10|⍵)∊0 2})t ⍝ Simple text values are assumed to be [table.]field names (most common usage)
+ t←({''''∆Q¨⊃¨⍵}@{⍵∊2})t ⍝ Singly-nested values are assumed to be text strings to be treated as constant text data
+ t←({⊃¨⊃¨⍵}@{⍵∊3})t ⍝ Doubly-nested values are assumed to be text strings to be treated as pre-formatted arguments
  sql←⊃,/1↓,('⎕',⍕¨data),[1.5]1↓¨(+\'⎕'='⎕',expression)⊆'⎕',expression ⍝ Replace all the '⎕'s with massaged data

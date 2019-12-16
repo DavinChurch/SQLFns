@@ -7,5 +7,5 @@
 
 
  :If 1≥|≡fields ⋄ fields←⊂,fields ⋄ :EndIf
- desc←('' ' Desc')[1+'⍒'∊¨fields←,,¨fields] ⋄ fields←fields~¨⊂'⍋⍒'
+ desc←('' ' Desc')[1+'⍒'∊¨fields←,,¨fields] ⋄ fields~¨←⊂'⍋⍒'
  sql←', '∆sew('.'Q fields),¨desc ⋄ sql←((×⍴sql)/' Order By '),sql

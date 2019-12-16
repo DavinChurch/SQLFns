@@ -39,24 +39,24 @@
 ⍝ Converted to Dyalog 8 November 2019 by Davin Church of Creative Software Design
 
  types←⍬ ⋄ :If 0=⎕NC'names' ⋄ names←records[1;] ⋄ records←2 0↓(⊂'')⍪records ⋄ :EndIf
- :If 2=⍴⍴names ⋄ :AndIf 2=⊃⍴names ⋄ types←names[2;] ⋄ names←names[1;] ⋄ :EndIf
- :If 1=⍴⍴names ⋄ :AndIf ∧/1=⊃¨⍴¨t←⍴¨names ⋄ :AndIf ∧/' '=⊃¨0⍴¨names ⋄ :AndIf ∧/×⊃¨t
+ :If 2=⍴⍴names ⋄ :AndIf 2=≢names ⋄ types←names[2;] ⋄ names←names[1;] ⋄ :EndIf
+ :If 1=⍴⍴names ⋄ :AndIf ∧/1=≢¨t←⍴¨names ⋄ :AndIf ∧/' '=⊃¨0⍴¨names ⋄ :AndIf ∧/×⊃¨t
  :Else ⋄ 'Invalid structure for field names'⎕SIGNAL 11 ⋄ :EndIf
- :If 1=⍴⍴types ⋄ :AndIf ∧/1≥⊃¨⍴¨t←⍴¨types ⋄ :AndIf ∧/(0≡¨⊃¨0⍴¨types)∨types∊0 ⍬ 1∘.⍴0 ' ' ⋄ :AndIf ∧/(⊃¨t)∊¨⊂0 1
+ :If 1=⍴⍴types ⋄ :AndIf ∧/1≥≢¨t←⍴¨types ⋄ :AndIf ∧/(0≡¨⊃¨0⍴¨types)∨types∊0 ⍬ 1∘.⍴0 ' ' ⋄ :AndIf ∧/(⊃¨t)∊¨⊂0 1
  :Else ⋄ 'Invalid structure for field types'⎕SIGNAL 11 ⋄ :EndIf
  'No data columns'⎕SIGNAL 11/⍨0∊¯1↑⍴records
- :If scalar←1=⊃⍴⍴records ⋄ records←(¯2↑1 1,⍴records)⍴records ⋄ :EndIf
+ :If scalar←1=≢⍴records ⋄ records←(¯2↑1 1,⍴records)⍴records ⋄ :EndIf
  :If 2≠⍴⍴records ⋄ 'Rank Error (Records)'⎕SIGNAL 4 ⋄ :EndIf
- :If empty←(0∊⊃⍴records)∧×⍴types←⊃¨types ⍝ Set data prototypes if there are no records but column types have been provided
+ :If empty←(0∊≢records)∧×⍴types←⊃¨types ⍝ Set data prototypes if there are no records but column types have been provided
     ⍝ Create a non-empty data array so columns can be emptied individually later
      t←types∊20 11 136 72 3 2 16 21 19 18 17 6 131 14 5 4 7 133 134,0 ⍝ Allow 0=num & ''=char for flexible typing
-     records←records⍪('' 0)[1+t] ⍝ Add a dummy record to the empty matrix
+     records⍪←('' 0)[1+t] ⍝ Add a dummy record to the empty matrix
  :EndIf
  'Length Error (Names)'⎕SIGNAL 5/⍨(⍴names)≠¯1↑⍴records
 
 ⍝ Prepare the variable names for use and check proper localization
  (((∊names)∊'~∧')/∊names)←'∆' ⋄ (((∊names)∊'. ')/∊names)←'_' ⍝ Convert to legal variable names
- ((~(∊names)∊'∆⍙_¯',⎕UCS(47+⍳10),,64 96∘.+⍳26)/∊names)←'⍙' ⍝ Convert to legal variable names
+ ((~(∊names)∊'∆⍙_¯',⎕D,⎕A,819⌶⎕A)/∊names)←'⍙' ⍝ Convert to legal variable names
  'Domain Error (Names) - Unable to assign'⎕SIGNAL 11/⍨~∧/(⎕NC↑names)∊0 2
 
 ⍝ Data and variables are checked and ready - make the assignments

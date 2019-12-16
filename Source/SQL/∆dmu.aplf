@@ -20,6 +20,6 @@
  :If 0≠⎕NC'rmv' ⋄ :AndIf ~6∊10|⎕DR¨rmv data ⋄ :AndIf ≠/⊃¨0⍴¨rmv data
      trim←data ⋄ :Return ⍝ Different datatypes - return input unchanged
  :EndIf
- :If 0=⎕NC'rmv' ⋄ :AndIf 1<|≡rmv←1↑0⍴data ⋄ rmv←rmv,∆dmu¨rmv ⋄ :EndIf
- keep←~data∊rmv ⋄ keep←keep∨(((-1⌈⍴⍴keep)↑¯1)↓0,keep)∧⌽∨\⌽keep
+ :If 0=⎕NC'rmv' ⋄ :AndIf 1<|≡rmv←1↑0⍴data ⋄ rmv,←∆dmu¨rmv ⋄ :EndIf
+ keep←~data∊rmv ⋄ keep∨←(((-1⌈⍴⍴keep)↑¯1)↓0,keep)∧⌽∨\⌽keep
  trim←+/keep ⋄ trim←trim∘.≥⍳⌈/0,,trim ⋄ trim←(⍴trim)⍴(,trim)\(,keep)/,data

@@ -6,8 +6,7 @@
 ⍝ Provide arguments in this order (the standard order of a SQL Update statement):
 ⍝       {update-table} {set-values} {where-clause}
 ⍝ Each of these values should be suitable for passing (monadically) to each
-⍝ of these corresponding functions:
-⍝   Update, Set, Where
+⍝ of these corresponding functions:  Update, Set, Where
 ⍝
 ⍝ Written 17 December 2014 by Davin Church of Creative Software Design
 ⍝ Updated 31 January 2017 by Davin Church of Creative Software Design
@@ -18,6 +17,4 @@
  :Trap 0
      :If 1<|≡set ⋄ set←Set set ⋄ :EndIf ⍝ Permit Set to be called before now, as well as not
      sql←(Update table),set,Where where
- :Else
-     ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
- :EndTrap
+ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap

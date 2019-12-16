@@ -16,7 +16,7 @@
  :If 1≥|≡phrases ⋄ phrases←,⊂phrases ⋄ :EndIf
  :If 2=⍴⍴phrases ⋄ phrases←↓phrases ⋄ :EndIf ⋄ phrases←,,¨phrases
  :If ∨/t←6=10|⎕DR¨phrases ⍝ Run name/value pairs through Is
-     'Length Error'⎕SIGNAL 5/⍨∨/2≠⊃¨⍴¨t/phrases
+     'Length Error'⎕SIGNAL 5/⍨∨/2≠≢¨t/phrases
      (t/phrases)←⊃¨Is/¨(⊂'⍎' ''),¨¨t/phrases ⍝ (Unquotable)
  :EndIf
  sql←And ∆dlt¨phrases ⋄ sql←((×⍴sql)/' Having '),sql

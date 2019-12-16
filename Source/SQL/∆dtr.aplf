@@ -20,5 +20,5 @@
  :If 0≠⎕NC'rmv' ⋄ :AndIf ~6∊10|⎕DR¨rmv data ⋄ :AndIf ≠/⊃¨0⍴¨rmv data
      trim←data ⋄ :Return ⍝ Different datatypes - return input unchanged
  :EndIf
- :If 0=⎕NC'rmv' ⋄ :AndIf 1<|≡rmv←1↑0⍴data ⋄ rmv←rmv,∆dtr¨rmv ⋄ :EndIf
+ :If 0=⎕NC'rmv' ⋄ :AndIf 1<|≡rmv←1↑0⍴data ⋄ rmv,←∆dtr¨rmv ⋄ :EndIf
  trim←((-1⌈⍴⍴data)↑-(¯1↑1,⍴data)⌊⌊/,+/∧\⌽data∊rmv)↓data

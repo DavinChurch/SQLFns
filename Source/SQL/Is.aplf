@@ -1,4 +1,4 @@
- sql←fieldname Is starpattern;t;pat;origfield;q;dr;num;op;sop;upper;wild;asis;likeonly;nolike;⎕PP;math;zilde;⎕TRAP;tcnul
+ sql←fieldname Is starpattern;t;pat;origfield;q;dr;num;op;sop;upper;wild;asis;likeonly;nolike;⎕PP;math;zilde;tcnul
 ⍝∇ Change a (possibly "wildcarded") search request to a SQL "WHERE" phrase
 ⍝∇ using '=' (equals), 'IN', 'LIKE', or 'BETWEEN', or 'NOT' versions of
 ⍝∇ these, or inequalities ('<', '<=', '>=', '>').  Also supports testing
@@ -176,49 +176,49 @@
 ⍝   davin In ('A', 'B', 'C')
 ⍝
 ⍝
-⍝ Subroutines required:  And, Or, Q, ∆Q, ∆csv, ∆dtr
+⍝ Subroutines required:  And, Null, Or, Q, ∆Q, ∆csv, ∆dtr
 ⍝ Subroutines sometimes needed:  Get (w/subroutines), Math (w/subroutines), ∆dlt, ∆sew, ∆uc
 ⍝
 ⍝ Written about 1999 by Davin Church of Creative Software Design
 ⍝ Modified 5 January 2018 by Davin Church and Doug Neman of Creative Software Design
 ⍝ Converted to Dyalog 8 November 2019 by Davin Church of Creative Software Design
 
- ⎕PP←15 ⋄ ⎕TRAP←0 'C' '⎕DM' ⍝? Needs adjusting
- q wild tcnul←'''*',⎕UCS 0 ⋄ :If 0<⎕NC'Config' ⋄ q wild←Config[4 5] ⋄ :EndIf
+ ⎕PP←15 ⋄ q wild tcnul←'''*',⎕UCS 0 ⋄ :If 0<⎕NC'Config' ⋄ q wild←Config[4 5] ⋄ :EndIf
  :If 2=⍴⍴starpattern ⍝ A matrix of values requests And/Or alternative grouping
      sql←(⊂fieldname)Is¨↓starpattern←' '∆dtr¨starpattern
-     sql←((1<t←⊃¨⍴¨(↓starpattern)~¨⊂''⍬)⍴¨⊂⊂'()')And¨sql
+     sql←((1<t←≢¨(↓starpattern)~¨⊂''⍬)⍴¨⊂⊂'()')And¨sql
      sql←((1<+/t)/'()')Or sql
      :Return
  :EndIf
  :While ∨/math←1<|≡¨fieldname ⍝ If it's nested more than 1 deep, it must be a Math call
      :If 0∊⍴⍴math ⋄ fieldname←⊃fieldname ⋄ :EndIf ⍝ Allow for nested-scalar processing
      'Depth error on field expression'⎕SIGNAL 11/⍨1≠|≡⊃pat←(math←(,math)⍳⍳⍴⍴math)⊃fieldname
-     pat←(⊃pat)Math 1↓pat ⍝ Perform Math substitution
-     math⊃fieldname←pat,'⍎'~pat
+     :Trap 0 ⋄ pat←(⊃pat)Math 1↓pat ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap ⍝ Perform Math substitution
+     (math⊃fieldname)←pat,'⍎'~pat
  :EndWhile ⍝ They better all be unnested names now
  :If 1<|≡fieldname ⍝ Multiple field names indicate multiple "likes" to be And-ed together
      'Length Error'⎕SIGNAL 5/⍨(⍴1/fieldname)≢⍴1/starpattern
-     sql←And fieldname Is¨starpattern ⋄ :Return
+     :Trap 0 ⋄ sql←And fieldname Is¨starpattern ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap ⋄ :Return
  :EndIf
  t←'↑⍬⍞*⍟⍎÷~=≠<≤≥>→←∊⍷' ⋄ :If '⍎'∊fieldname ⋄ t←t~'=<>*' ⋄ :EndIf ⍝ Options
  op←(t∊fieldname)/t ⋄ op←op,(0∊⍴op~'↑⍬⍞*⍟⍎~÷')/'='
  origfield←fieldname ⋄ fieldname←∆dlt fieldname~t
  :If (×⍴fieldname)∧~'⍎'∊op ⋄ fieldname←'.'Q fieldname ⋄ :EndIf
- 'Conflicting comparison operations'⎕SIGNAL 11/⍨1≠⊃⍴op~'↑⍬⍞*⍟⍎~÷'
+ 'Conflicting comparison operations'⎕SIGNAL 11/⍨1≠≢op~'↑⍬⍞*⍟⍎~÷'
  'Conflicting "Like" ("*"/"⍟") operations'⎕SIGNAL 11/⍨∧/'*⍟'∊op
  :If upper←'↑'∊op ⋄ fieldname←'Upper(',fieldname,')' ⋄ :EndIf
  zilde asis likeonly nolike math←'⍬⍞*⍟÷'∊op ⋄ op←op~'↑a⍞*⍟⍎÷' ⍝ Flags
  :If '~'∊op ⋄ op←'≠=≥><≤←→⍷∊'['=≠<≤≥>→←∊⍷'⍳op~'~'] ⋄ :EndIf ⍝ Invert test
  sop←'=' '<>' '<' '<=' '>=' '>' 'Between' 'Not Between'
- sop←sop,(1+0∊⍴fieldname)⊃('In' 'Not In')('Exists' 'Not Exists')
+ sop,←(1+0∊⍴fieldname)⊃('In' 'Not In')('Exists' 'Not Exists')
  sop←(0∊⍴fieldname)↓' ',(('=≠<≤≥>→←∊⍷'⍳op←⊃op)⊃sop),' '
  'Inequalities cannot be used with "Like" ("*")'⎕SIGNAL 11/⍨likeonly∧~op∊'=≠'
  num←1 3 5 7∊⍨dr←10|⎕DR starpattern←tcnul Null starpattern ⍝ What data type is this?
  '"Uppercase" ("↑") cannot be applied to numeric values'⎕SIGNAL 11/⍨num∧upper
  :If op∊'∊⍷' ⍝ '⍷' means not-in/not-exists internally
      :If dr=6
-         dr←10|⎕DR starpattern←Get starpattern ⋄ num←0
+         :Trap 0 ⋄ dr←10|⎕DR starpattern←Get starpattern ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+         num←0
      :EndIf
      starpattern←'()'∆Q starpattern ⋄ asis←1
  :EndIf
@@ -227,21 +227,22 @@
          dr←10|⎕DR starpattern←'' ⋄ num←0 ⋄ asis←0
      :Else
          'Depth error on Math value expression'⎕SIGNAL 11/⍨1≠|≡⊃starpattern
-         dr←10|⎕DR starpattern←(⊃starpattern)Math 1↓starpattern ⋄ num←0 ⋄ asis←1
+         :Trap 0 ⋄ dr←10|⎕DR starpattern←(⊃starpattern)Math 1↓starpattern ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+         num←0 ⋄ asis←1
      :EndIf
  :EndIf
  :If asis ⍝ Just plug the text straight into the SQL command
      '"Null" cannot be used in as-is tests'⎕SIGNAL 11/⍨tcnul∊∊starpattern
      :If likeonly ⋄ sop←((op='≠')/' Not'),' Like ' ⋄ :EndIf
      :If op∊'→←' ⍝ Between two values
-         :If (2≠⊃⍴starpattern)∨(~zilde)∧∨/0∊¨⍴¨starpattern
+         :If (2≠≢starpattern)∨(~zilde)∧∨/0∊¨⍴¨starpattern
          :OrIf (≢/⊃¨0⍴¨starpattern)∨∨/(0≠⊃⊃0⍴⊃starpattern)<|≡¨starpattern
          :OrIf ∨/tcnul∊¨starpattern
              '"Between" ("→") must use exactly two single values of the same type'⎕SIGNAL 11
          :EndIf
          sql←fieldname,sop,(⍕1⊃starpattern),' And ',⍕2⊃starpattern
      :ElseIf dr=6
-         :If (op∊'=≠')∧(~likeonly)∧1<⍴starpattern←starpattern~(~zilde)/''⍬
+         :If (op∊'=≠')∧(~likeonly)∧1<⍴starpattern~←(~zilde)/''⍬
              sql←fieldname,((op='≠')/' Not'),' In ','()'∆Q'' ', '∆csv starpattern
          :Else
              sql←(×⍴starpattern)/((1<⍴,starpattern)/'()')∆Q Or(⊂fieldname,sop),¨⍕¨starpattern
@@ -252,12 +253,12 @@
  :ElseIf dr=6
  :OrIf num∧1<⍴,starpattern
     ⍝ Nested calls generate an IN-list and/or a OR-list of "likes"
-     :If ×⍴starpattern←starpattern~(~zilde)/''⍬
+     :If ×⍴starpattern~←(~zilde)/''⍬
          :If ((wild∊∊starpattern)∨∨/tcnul∊¨starpattern)∧~nolike ⍝ Any wildcards (or nulls) at all?
          :OrIf 1=⍴starpattern ⍝ (a single term produces simple result)
              sql←'' ⋄ t←(likeonly∨1∊⍴starpattern)∨(('*'∊¨starpattern)∧~nolike)∨tcnul∊¨starpattern
-             :If ∨/~t ⋄ sql←sql,⊂origfield Is(~t)/starpattern ⋄ :EndIf
-             :If ∨/t ⋄ sql←sql,(⊂origfield)Is¨t/starpattern ⋄ :EndIf
+             :If ∨/~t ⋄ :Trap 0 ⋄ sql,←⊂origfield Is(~t)/starpattern ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap ⋄ :EndIf
+             :If ∨/t ⋄ :Trap 0 ⋄ sql,←(⊂origfield)Is¨t/starpattern ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap ⋄ :EndIf
              :If ∨/t←t∧1≥|≡¨starpattern
              :AndIf ∨/t←t\∧/¨t/starpattern=' ' ⍝ Preserve "empty" checks in lists
                  'Inequalities cannot be used with wildcards'⎕SIGNAL 11/⍨~op∊'=≠'
@@ -271,16 +272,16 @@
                  'Inequalities cannot be used with wildcards'⎕SIGNAL 11/⍨~op∊'=≠'
                  sql←⊂(op='≠')/fieldname,' Not Like ',q ∆Q'%'
              :EndIf
-             sql←sql~⊂''
+             sql~←⊂''
              :If op='≠' ⋄ sql←And sql ⋄ :Else ⋄ sql←((1<⍴,sql)/'()')∆Q Or sql ⋄ :EndIf
          :Else ⍝ Nope, then try using 'IN' instead
              t←0 2∊⍨10|⎕DR¨starpattern ⋄ (t/starpattern)←∆dtr¨t/starpattern ⍝ Trim
              :If upper ⋄ (t/starpattern)←∆uc t/starpattern ⋄ :EndIf ⍝ Uppercase
              :If likeonly
-                 sql←((⊂origfield)Is¨starpattern)~⊂''
+                 :Trap 0 ⋄ sql←((⊂origfield)Is¨starpattern)~⊂'' ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
                  :If op='≠' ⋄ sql←And sql ⋄ :Else ⋄ sql←((1<⍴,sql)/'()')∆Q Or sql ⋄ :EndIf
              :ElseIf op∊'→←' ⍝ Between two values
-                 :If (2≠⊃⍴starpattern)∨(~zilde)∧∨/0∊¨⍴¨starpattern
+                 :If (2≠≢starpattern)∨(~zilde)∧∨/0∊¨⍴¨starpattern
                  :OrIf (≢/⊃¨0⍴¨starpattern)∨∨/(0≠⊃⊃0⍴⊃starpattern)<|≡¨starpattern
                  :OrIf ∨/tcnul∊¨starpattern
                      '"Between" ("→") must use exactly two single values of the same type'⎕SIGNAL 11
@@ -303,7 +304,7 @@
      :Else ⍝ They're asking for a "likeness" to be performed instead of creating a SQL command
          :If ∧/pat∊wild ⋄ pat←⊃wild ⋄ :EndIf
          t←,pat∊'%_\'~wild ⋄ pat←(1+t)/pat ⋄ pat[(t/⍳⍴t)+¯1+⍳+/t]←'\' ⍝ Characters to 'escape' in string first
-         sql←'%'@{⍵∊wild}pat ⍝ Change all '*'s to '%'s
+         sql←('%'@{⍵∊wild})pat ⍝ Change all '*'s to '%'s
      :EndIf
  :ElseIf (~zilde)∧(~num)∧0∊⍴pat←∆dtr starpattern ⍝ If a '' after trimming
  :OrIf (×⍴pat)∧(~num)∧(∧/pat∊wild)∧~nolike ⍝ Or if all '*' characters
@@ -313,7 +314,7 @@
     ⍝ If it's a "≠" choice (and not a ''), then it will select NO record!
     ⍝ We'll simplify both these situations into a single true/false
      'Inequalities cannot be used with wildcards'⎕SIGNAL 11/⍨(wild∊pat)∧~op∊'=≠'
-     sql←((op='≠')∧(~num)∧×⍴pat)/fieldname,' Not Like ',q ∆Q'%'@
+     sql←((op='≠')∧(~num)∧×⍴pat)/fieldname,' Not Like ',q ∆Q'%'
  :ElseIf (wild∊pat)∧~nolike ⍝ Anything wild?
      'Inequalities cannot be used with wildcards'⎕SIGNAL 11/⍨~op∊'=≠'
      :If upper ⋄ pat←∆uc pat ⋄ :EndIf ⍝ Uppercase

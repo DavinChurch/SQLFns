@@ -6,24 +6,24 @@
 ⍝ Converted to Dyalog 8 November 2019 by Davin Church of Creative Software Design
 
  :If 0=⎕NC'pw' ⋄ pw←⎕PW ⋄ :EndIf ⋄ nl←⎕UCS 13
- ind←1↑1↓pw,4 ⋄ pw←⊃pw ⋄ mat←'' ⋄ sql[(sql∊nl)/⍳⍴sql]←' ' ⋄ sql←∆dmu,' ',sql
+ ind←1↑1↓pw,4 ⋄ pw←⊃pw ⋄ mat←'' ⋄ sql←∆dmu,' ',(' '@{⍵∊nl})sql
  'Minimum display width exceeded'⎕SIGNAL 11/⍨pw<5
  kw←'SELECT' 'INSERT' 'UPDATE' 'DELETE' 'FROM' 'SET' 'WHERE'
- kw←kw,'GROUP BY' 'ORDER BY' 'HAVING' 'AND' 'OR' 'ON'
+ kw,←'GROUP BY' 'ORDER BY' 'HAVING' 'AND' 'OR' 'ON'
  kw←(⊂'(SELECT '),' ',¨kw,¨' '
  :While ×⍴sql←(+/∧\sql=' ')↓sql
      :If '('=⊃sql
         ⍝ Indent everything at this level of parens
          at←(-⌿+\'()'∘.=∆clean sql)⍳0
          :If (at+1+(⌽mat)⍳nl)≤pw-ind ⍝ Try to fit short parenthetical expressions on the same line
-             mat←mat,((nl≠¯1↑nl,mat)/' '),at↑sql ⍝? Are they still/more readable?
+             mat,←((nl≠¯1↑nl,mat)/' '),at↑sql ⍝? Are they still/more readable?
          :ElseIf at≤pw-ind ⍝ Or perhaps on a single separate line if they don't fit on the same one
-             mat←mat,nl,(ind⍴' '),at↑sql ⍝? Are they still/more readable?
+             mat,←nl,(ind⍴' '),at↑sql ⍝? Are they still/more readable?
          :Else ⍝ If we have to, split them all up on multiple lines
-             mat←mat,nl,(ind⍴' '),'('
+             mat,←nl,(ind⍴' '),'('
              m←↑nl ∆cut((pw-ind),ind)See(at-2)↑1↓sql
-             mat←mat,nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
-             mat←mat,nl,(ind⍴' '),')'
+             mat,←nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
+             mat,←nl,(ind⍴' '),')'
          :EndIf
          sql←at↓sql
      :Else
@@ -40,29 +40,29 @@
          :EndIf
          phrase←∆dtr at↑sql ⋄ sql←at↓sql ⋄ i←0
          :If pw≥⍴phrase←∆dlt phrase
-             mat←mat,nl,phrase
+             mat,←nl,phrase
          :Else ⍝ Wrap long lines as best I can
              :While ×⍴phrase
                  t←((pw-i)+' '=⊃(pw-i)↓phrase)↑phrase ⋄ t←(t=' ')∨(∆clean t)∊',;)' ⋄ t←0⌈(0≠t)⌈.×⍳⍴t
-                 t←t+pw×t=0 ⋄ mat←mat,nl,(i⍴' '),∆dlt t↑phrase ⋄ phrase←∆dlt t↓phrase ⋄ i←2×ind
+                 t+←pw×t=0 ⋄ mat,←nl,(i⍴' '),∆dlt t↑phrase ⋄ phrase←∆dlt t↓phrase ⋄ i←2×ind
              :EndWhile
          :EndIf
          :Select this
          :Case 'SELECT' ⍝ Indent everything hereafter
              m←↑nl ∆cut((pw-ind),ind)See sql
-             mat←mat,nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
+             mat,←nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
              sql←''
          :CaseList 'FROM' 'WHERE'
              t←at↓⊃∨/mark[(∆dlt¨kw)⍳'WHERE' 'GROUP BY' 'ORDER BY' 'HAVING']
              at←¯1+(t∧0=-⌿+\'()'∘.=∆clean sql)⍳1
              m←↑nl ∆cut((pw-ind),ind)See at↑sql
-             mat←mat,(at=0)↓nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
+             mat,←(at=0)↓nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
              sql←at↓sql
          :Case 'ON' ⍝ Indent just this phrase
              t←at↓⊃∨/mark[(∆dlt¨kw)⍳'WHERE' 'GROUP BY' 'ORDER BY' 'HAVING']
              at←¯1+(t∨<\0>-⌿+\'()'∘.=∆clean sql)⍳1
              m←↑nl ∆cut((pw-ind),ind)See at↑sql
-             mat←mat,nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
+             mat,←nl,nl ∆sew ∆dtr¨↓(-(0,ind)+⍴m)↑m
              sql←at↓sql
          :EndSelect
      :EndIf

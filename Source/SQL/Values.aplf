@@ -16,17 +16,13 @@
 
  q←'''''' ⋄ :If ×⎕NC'Config' ⋄ q←4⊃Config ⋄ :EndIf ⍝ Configurable string quote marks
  :If 1≥|≡values ⋄ :AndIf ' '=⊃0⍴values ⋄ values←⊂,values ⋄ :EndIf
- rho←⍴values←1/values ⋄ values←,(⎕UCS 0)Null values ⍝ Let's do all the checking as a vector
+ rho←⍴values←1/values ⋄ values←,((⎕UCS 0)@{⍵∊⎕NULL})values ⍝ Let's do all the checking as a vector
  :If ∨/n←6=t←10|⎕DR¨values ⋄ n←n\∧/¨,¨(10|⎕DR¨¨n/values)∊¨¨⊂⊂0 2 ⋄ :EndIf
  'Data Domain Error'⎕SIGNAL 11/⍨∨/~n∨t∊0 2,1 3 5 7 9
- 'Data Rank Error'⎕SIGNAL 4/⍨∨/((~n)+t←n∨t∊0 2)<⊃¨⍴¨⍴¨values
+ 'Data Rank Error'⎕SIGNAL 4/⍨∨/((~n)+t←n∨t∊0 2)<≢¨⍴¨values
  (t/values)←,¨t/values ⋄ ((~t)/values)←⊃¨(~t)/values ⍝ Coerce ranks
- ((values∊⊂,⎕UCS 0)/values)←⊂⊂'Null' ⋄ ((values∊⊂,⎕UCS 127)/values)←⊂⊂'Default'
- :Trap 0
-     sql←'()'∆Q q', '∆csv rho⍴values
- :Else
-     ⎕SIGNAL⊂{⍵,⍪⎕DMX.⍎¨⍵}'Category' 'EM' 'EN' 'ENX' 'Message'
- :EndTrap
- :If 1<≡sql ⋄ sql←', '∆sew sql ⋄ :EndIf ⋄ sql←' Values ',sql
+ values←((⊂⊂'Null')@{⍵∊⎕UCS 0})((⊂⊂'Default')@{⍵∊⎕UCS 127})values
+ :Trap 0 ⋄ sql←'()'∆Q q', '∆csv rho⍴values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
+ :If 1<|≡sql ⋄ sql←', '∆sew sql ⋄ :EndIf ⋄ sql←' Values ',sql
 
 ⍝? Allow use of deeply-nested data to call Math internally?

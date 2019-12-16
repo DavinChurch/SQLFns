@@ -51,7 +51,7 @@
 
  :If 0=⎕NC'special' ⋄ special←0⍴⊂'' ⋄ :EndIf
  :If 1=|≡special ⋄ special←⊂special ⋄ :EndIf
- :If noquote←×⊃⍴special←(,,¨special)~⊂''
+ :If noquote←×≢special←(,,¨special)~⊂''
      noquote←∨/t←∧/¨'⍎'=(1⌈⍴¨special)↑¨special ⋄ special←(~t)/special
  :EndIf
 
@@ -59,12 +59,12 @@
  :If 1≥|≡fields ⋄ fields←⊂fields ⋄ :EndIf ⋄ fields←,,¨fields
  :If ∨/t←1=|≡¨fields ⋄ (t/fields)←∆dtr¨¨⌽¨¯2↑¨'←'∆cut¨t/fields ⋄ :EndIf
  :If ∨/t←2≥|≡¨fields
-     :If noquote ⋄ (t/fields)←(t/fields)~¨¨'⍎' ⋄ :Else ⋄ (t/fields)←↓'.'Q↑2↑¨t/fields ⋄ :EndIf
+     :If noquote ⋄ (t/fields)~¨¨←'⍎' ⋄ :Else ⋄ (t/fields)←↓'.'Q↑2↑¨t/fields ⋄ :EndIf
  :EndIf
  :If ∨/t←3≤|≡¨fields
      (t/fields)←(⊂¨((⊃¨1⊃¨t/fields)Math¨1↓¨1⊃¨t/fields)~¨'⍎'),¨1↓¨t/fields
  :EndIf
- :If ∨/t←×⊃¨⍴¨2⊃¨fields←∆dtr¨¨2↑¨fields ⋄ (t/fields)←(⊂' As ')∆sew¨t/fields ⋄ :EndIf
+ :If ∨/t←×≢¨2⊃¨fields←∆dtr¨¨2↑¨fields ⋄ (t/fields)←(⊂' As ')∆sew¨t/fields ⋄ :EndIf
  :If ∨/~t ⋄ ((~t)/fields)←⊃¨(~t)/fields ⋄ :EndIf
 
  t←' '∆sew ∆dlt¨special ⋄ sql←'Select ',t,((×⍴t)/' '),', '∆sew fields
