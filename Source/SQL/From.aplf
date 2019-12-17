@@ -152,7 +152,7 @@
              :EndIf
              :If ×⍴extra
                  ⍝ Fail if any extra criteria are not suitable for use by Where
-                 :Trap 0 ⋄ t←Where¨extra ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
+                 :Trap 0 ⋄ {}Where¨extra ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
                  on⍪←(⊂''),'⍵',[1.5]extra ⍝ Add directly to join terms as-is
                  :If ∨/symbols∊join ⍝ Are there any more (chained) joins in this term?
                      'Custom join criteria not allowed on chained joins'⎕SIGNAL 11
