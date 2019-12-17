@@ -1,0 +1,6 @@
+ Test fns;∆wl;exp
+⍝∇ Provide zero or more testing fns to execute, possibly including "*"s
+ ∆wl←{⍺←'' ⋄ (('[^ ',(∊{'\x{',(⎕D,⎕A)[1+⍉(8⍴16)⊤⎕UCS ⍵],'}'}¨,⍺),']+')⎕S'&'){1≥|≡⍵:,' ',⍕⍵ ⋄ ⊃,/∇¨(,⍵),⊂''}⍵} ⍝ Word-list decomposer
+ exp←{(('\*'⎕R'.+')('\.'⎕R'\\.')⍵)⎕S'&'⊢' '~¨⍨↓⎕NL 3} ⍝ Expand wild-carded names
+ ⍎¨fns←(⊃,/exp¨' ,;'∆wl fns)~'Test' '∆wl' 'exp' ⍝ Run each individual test function
+ (⍕⍴fns),' tests completed'
