@@ -1,0 +1,56 @@
+ rpt←{left}(testfn Pass_ expect)right;at;result;validate;⎕TRAP;nrr
+ ⍝∇ Perform a unit-test on a simple function call that takes arguments and is expected to NOT return a result.
+ ⍝∇ Execute <testfn> with arguments {left} and <right> and expect no result to be returned.
+ ⍝∇ <expect> should be a function (passed ⍬ as any arguments) that validates
+ ⍝∇ any side effects of the proper operation (and returns a 1 if OK, 0 if not).
+ ⍝ See also ∇Pass to run tests that return result values to be verified.
+ ⍝ and ∇Fail/∇Fail_ to test production of ⎕SIGNAL error reports.
+
+ rpt←'' ⋄ at←⊃⎕AT'testfn' ⋄ nrr←at[1]=0
+ 'Test-fn is niladic'⎕SIGNAL 2/⍨at[2]=0
+ 'Test-fn is monadic'⎕SIGNAL 2/⍨(at[2]=1)∧0≠⎕NC'left'
+ 'Test-fn is dyadic'⎕SIGNAL 2/⍨(at[2]=2)∧0=⎕NC'left'
+ :If 0=⎕NC'left' ⋄ left←⊢ ⋄ :EndIf
+ :Select ⊃⎕NC'expect'
+ :Case 3 ⍝ A function to validate the result
+     at←⊃⎕AT'expect'
+     'Validation-fn does not return a result'⎕SIGNAL 2/⍨at[1]=0
+     :Select at[2]
+     :Case 0 ⋄ validate←{expect}
+     :Case 1 ⋄ validate←{expect ⍵}
+     :CaseList 2 ¯2 ⋄ validate←{⍺ expect ⍵}
+     :EndSelect
+ :Else
+     'Validation operand is not a fn'⎕SIGNAL 2
+ :EndSelect
+
+ ⎕TRAP←0 'E' '(1↓∊(⎕UCS 13),[⎕IO+.5]⎕DM) ⎕SIGNAL ⎕EN' ⍝ Interior trapping
+ :Trap 0 ⍝ Exterior trapping (explicitly reported ⎕SIGNALs)
+     :If nrr
+         left testfn right
+         result←⍬ ⍝ This cannot return a result
+     :Else
+         result←left testfn right
+         rpt←'Test-fn produced a result:',(⎕UCS 13),⍕result
+     :EndIf
+ :Else
+     :If (⎕EN=6)∧(~(⎕UCS 13)∊⊃⎕DM)∧∨/'left testfn right'⍷⊃1↓⎕DM
+         result←⍬ ⍝ This is the expected case (a returned VALUE ERROR)
+     :Else
+         rpt←1↓∊(⎕UCS 13),[⎕IO+0.5]⎕DM
+     :EndIf
+ :EndTrap
+ ⎕TRAP←0/⎕TRAP
+
+ :If 0∊⍴rpt
+ :AndIf ~⍬ validate ⍬
+     rpt←'Non-result validation failed'
+ :EndIf
+
+ :If 0∊⍴rpt
+     rpt←0 0⍴''
+ :Else
+     ⍝ Set StopOnError←0 to just report problems and keep going
+     :If 0=⎕NC'StopOnError' ⋄ :OrIf 1∊StopOnError ⋄ rpt ⎕SIGNAL 500 ⋄ :EndIf
+     rpt,⍨←(⊃1↓⎕LC){'@',⍵,(×⍴⍵)/'[',(⍕⍺),']: '}' '~⍨⊃1↓⎕SI
+ :EndIf

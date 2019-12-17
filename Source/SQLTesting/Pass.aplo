@@ -1,0 +1,53 @@
+ rpt←{left}(testfn Pass expect)right;at;result;validate;⎕TRAP
+ ⍝∇ Perform a unit-test on a simple function call that takes arguments and returns a result.
+ ⍝∇ Execute <testfn> with arguments {left} and <right> and expect a result back that should ≡ <expect>.
+ ⍝∇ <expect> may be a data value to match (≡) or a niladic or monadic function to validate the
+ ⍝∇ returned result (and return a 1 if OK, 0 if not).
+ ⍝ See also ∇Pass_ to run tests without expected result values
+ ⍝ and ∇Fail/∇Fail_ to test production of ⎕SIGNAL error reports.
+
+ rpt←'' ⋄ at←⊃⎕AT'testfn'
+ 'Test-fn cannot return a result -- try using ∇Pass_'⎕SIGNAL 2/⍨at[1]=0
+ 'Test-fn is niladic'⎕SIGNAL 2/⍨at[2]=0
+ 'Test-fn is monadic'⎕SIGNAL 2/⍨(at[2]=1)∧0≠⎕NC'left'
+ 'Test-fn is dyadic'⎕SIGNAL 2/⍨(at[2]=2)∧0=⎕NC'left'
+ :If 0=⎕NC'left' ⋄ left←⊢ ⋄ :EndIf
+ :Select ⊃⎕NC'expect'
+ :Case 2 ⍝ A data value to match the result
+     validate←expect∘≡
+ :Case 3 ⍝ A function to validate the result
+     at←⊃⎕AT'expect'
+     'Validation-fn does not return a result'⎕SIGNAL 2/⍨at[1]=0
+     :Select at[2]
+     :Case 0 ⋄ validate←{expect}
+     :CaseList 1 ¯2 ⋄ validate←expect
+     :Case 2 ⋄ 'Validation-fn is dyadic'⎕SIGNAL 2
+     :EndSelect
+ :Else
+     'Validation operand is not a fn or var'⎕SIGNAL 2
+ :EndSelect
+
+ ⎕TRAP←0 'E' '(1↓∊(⎕UCS 13),[⎕IO+.5]⎕DM) ⎕SIGNAL ⎕EN' ⍝ Interior trapping
+ :Trap 0 ⍝ Exterior trapping (explicitly reported ⎕SIGNALs)
+     result←left testfn right
+ :Else
+     :If (⎕EN=6)∧(~(⎕UCS 13)∊⊃⎕DM)∧∨/'left testfn right'⍷⊃1↓⎕DM
+         rpt←'Test-fn did not return a result!'
+     :Else
+         rpt←1↓∊(⎕UCS 13),[⎕IO+0.5]⎕DM
+     :EndIf
+ :EndTrap
+ ⎕TRAP←0/⎕TRAP
+
+ :If 0∊⍴rpt
+ :AndIf ~validate result
+     rpt←'Validation failed on result:',,(⎕UCS 13),⍕result
+ :EndIf
+
+ :If 0∊⍴rpt
+     rpt←0 0⍴''
+ :Else
+     ⍝ Set StopOnError←0 to just report problems and keep going
+     :If 0=⎕NC'StopOnError' ⋄ :OrIf 1∊StopOnError ⋄ rpt ⎕SIGNAL 500 ⋄ :EndIf
+     rpt,⍨←(⊃1↓⎕LC){'@',⍵,(×⍴⍵)/'[',(⍕⍺),']: '}' '~⍨⊃1↓⎕SI
+ :EndIf
