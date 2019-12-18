@@ -1,0 +1,4 @@
+ Empty;fn
+ fn←#.SQL.Empty
+ 'None'(fn Pass'Testing')'Testing'
+ 'None'(fn Pass'None')''

@@ -1,0 +1,20 @@
+ From;fn;chk;defis
+ fn←#.SQL.From ⋄ defis←{#.SQL.From_Defaults≡⍵}
+ '←'fn'' ⍝ Reset any memorized tables
+ (fn Pass' From me')'me'
+ (fn Pass' From me, you')'me' 'you'
+ (fn Pass' From me, you, us')'me' 'you' 'us'
+ (fn Pass' From me As m, you As y')'m←me' 'y←you'
+ (fn Pass' From me Natural Join you')'me=you'
+ (fn Pass' From me Inner Join you On me.mm = you.yy')'me(mm)→you(yy)'
+ (fn Pass' From me Inner Join you On me.mm = you.yy And me.a = you.b')'me(mm,a)→you(yy,b)'
+ (fn Pass' From (me Inner Join you On me.mm = you.yy) Inner Join us On you.yy = us.zz')'me(mm)→you(yy)' 'you(yy)→us(zz)'
+⍝ (fn Fail 'No default join found')'me→you'
+ (fn Pass' From me Inner Join you On me.mm = you.yy')⊂'me(⍝1)→you(⍝2)'('me.mm = you.yy')
+ chk←1 4⍴'me' '→' 'you',⊂1 3⍴'mm' '=' 'yy'
+ '+'(fn Pass_{defis chk})'me(mm)→you(yy)'
+ chk⍪←1 4⍴'you' '→' 'us',⊂1 3⍴'yy' '=' 'zz'
+ '+'(fn Pass_{defis chk})'you(yy)→us(zz)'
+ (fn Pass' From (me Inner Join you On me.mm = you.yy) Inner Join us On you.yy = us.zz')'me→you→us'
+ '?'(fn Pass('me(mm)→you(yy)' 'you(yy)→us(zz)'))''
+ '←'(fn Pass_{defis 0 4⍴⊂''})''

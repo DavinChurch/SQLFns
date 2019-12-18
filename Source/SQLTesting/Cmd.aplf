@@ -1,0 +1,7 @@
+ Cmd;fn
+ fn←#.SQL.Cmd
+ (fn Pass'Select * From tab')'Select * From tab'
+ (fn Pass'Select * From tab')'*' 'tab'
+ (fn Pass'Select * From tab')'∇Get' '*' 'tab'
+ (fn Pass'??Select * From tab')'∇⍺Get' '??' '*' 'tab'
+ (fn Pass'Delete From tab Where ID=1')'∇Del⍵⍵' 'tab' 'ID=1'

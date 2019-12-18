@@ -43,8 +43,13 @@
  ⎕TRAP←0/⎕TRAP
 
  :If 0∊⍴rpt
- :AndIf ~⍬ validate ⍬
-     rpt←'Non-result validation failed'
+     :Trap 0
+         :If ~⍬ validate ⍬
+             rpt←'Non-result validation failed'
+         :EndIf
+     :Else
+         rpt←'Validation processing failed!'
+     :EndTrap
  :EndIf
 
  :If 0∊⍴rpt

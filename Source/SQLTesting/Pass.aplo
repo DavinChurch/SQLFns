@@ -40,8 +40,13 @@
  ⎕TRAP←0/⎕TRAP
 
  :If 0∊⍴rpt
- :AndIf ~validate result
-     rpt←'Validation failed on result:',,(⎕UCS 13),⍕result
+     :Trap 0
+         :If ~validate result
+             rpt←'Validation failed on result:',,(⎕UCS 13),⍕result
+         :EndIf
+     :Else
+         rpt←'Validation processing failed!'
+     :EndTrap
  :EndIf
 
  :If 0∊⍴rpt

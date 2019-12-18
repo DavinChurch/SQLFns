@@ -1,0 +1,3 @@
+ Del;fn
+ fn←#.SQL.Del
+ (fn Pass'Delete From tab Where ID=1')'tab' 'ID=1'
