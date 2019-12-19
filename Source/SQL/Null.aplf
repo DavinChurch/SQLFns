@@ -8,9 +8,4 @@
 ⍝ replaced.
 ⍝ Converted to Dyalog 12 December 2019 by Davin Church of Creative Software Design
 
- :If 1≥|≡data
-     ⍝ In v17.1, "@" doesn't work properly on a simple scalar ⎕NULL value!
-     :If ⎕NULL∊result←data ⋄ result←default ⋄ :EndIf
- :Else
-     result←((⊂default)@{⍵∊⍬ 1⍴¨⎕NULL})data
- :EndIf
+ result←(⍴data)⍴((⊂default)@{⍵∊⎕NULL}),data

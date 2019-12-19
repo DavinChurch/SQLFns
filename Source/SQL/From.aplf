@@ -17,7 +17,7 @@
 ⍝   A(1)<Y←B(2)     A Right Outer Join from A to B, but B gets an alias
 ⍝   X←A(1)>Y←A(2)   A Left Outer self-join from A to itself, using X & Y as aliases
 ⍝   A(1,2)→B(3,4)   A two-field Inner Join On A.1=B.3 And A.2=B.4
-⍝   A→B             Join A to B using previously defined join criteria                                ?
+⍝   A→B             Join A to B using previously defined join criteria
 ⍝   A()→B()         Join A to B ignoring any previously defined join criteria
 ⍝
 ⍝ The APL assignment arrow ("←") is used to specify aliases for any table name, as in:
