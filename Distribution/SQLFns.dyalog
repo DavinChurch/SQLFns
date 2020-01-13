@@ -68,7 +68,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      :If 1=⍴right ⋄ right←⊃right ⋄ :EndIf ⋄ fn~←'⍵'
  :EndIf
      ⍝ Now call the subroutine they requested (assuming there's no local-variable shadowing)
- :Trap 0 ⋄ sql←⍎(dyad/'left '),fn,' right' ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+ :Trap 0 ⋄ sql←⍎(dyad/'left '),fn,' right' ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
      ⍝? Allow for an '⍎' option to run arbitrary code??
 ∇
 
@@ -88,7 +88,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      'No Where clause constructed'⎕SIGNAL 5/⍨0∊⍴sql←Where where
      sql←(Delete from),sql
  :Else
-     ⎕SIGNAL ∆dmx
+     ⎕SIGNAL ∆dmx ⍬
  :EndTrap
 ∇
 
@@ -105,7 +105,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨1<≢table
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨∨/'→><≠∘='∊⊃table
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨∨/'(,)'∊⊃table
- :Trap 0 ⋄ sql←'Delete',From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+ :Trap 0 ⋄ sql←'Delete',From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
 ∇
 
 ∇ value←default Empty data
@@ -134,7 +134,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      ⍝   A(1)<Y←B(2)     A Right Outer Join from A to B, but B gets an alias
      ⍝   X←A(1)>Y←A(2)   A Left Outer self-join from A to itself, using X & Y as aliases
      ⍝   A(1,2)→B(3,4)   A two-field Inner Join On A.1=B.3 And A.2=B.4
-     ⍝   A→B             Join A to B using previously defined join criteria                                ?
+     ⍝   A→B             Join A to B using previously defined join criteria
      ⍝   A()→B()         Join A to B ignoring any previously defined join criteria
      ⍝
      ⍝ The APL assignment arrow ("←") is used to specify aliases for any table name, as in:
@@ -269,7 +269,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
              :EndIf
              :If ×⍴extra
                       ⍝ Fail if any extra criteria are not suitable for use by Where
-                 :Trap 0 ⋄ t←Where¨extra ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+                 :Trap 0 ⋄ {}Where¨extra ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
                  on⍪←(⊂''),'⍵',[1.5]extra ⍝ Add directly to join terms as-is
                  :If ∨/symbols∊join ⍝ Are there any more (chained) joins in this term?
                      'Custom join criteria not allowed on chained joins'⎕SIGNAL 11
@@ -337,7 +337,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      :CaseList ⍬ 1⍴¨'?'   ⍝ Format & return all or part of the default table
              ⍝ Limit results based on what they asked for
          :If (×≢joins←∆uc joins)∧×≢jj←∆uc j←From_Defaults
-             joins[;4]~¨¨←'⍝' ⋄ jj[;4]~¨¨←'⍝' ⍝ Allow commented fields to be matched
+             joins[;4]~¨←'⍝' ⋄ jj[;4]~¨←'⍝' ⍝ Allow commented fields to be matched
              tmatch←joins[;1]∘.≡jj[;1]
              tmatch∨←t←(joins[;1]∘.≡jj[;3])∧[1]joins[;2]=','
              tmatch∧←(joins[;3]∘.≡jj[;3])∨[1]joins[;2]=','
@@ -350,8 +350,8 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
          :If ×≢j
              t←'⍵'=2⌷[2]¨j[;4] ⋄ j1←(~t)⌿¨j[;4] ⋄ j2←t⌿¨j[;4]
              j,←','∆sew¨1⌷[2]¨j1 ⋄ j,←','∆sew¨3⌷[2]¨j1
-             j[;1],¨←(×≢¨j[;5])/¨'()'∆Q j[;5]
-             j[;3],¨←(×≢¨j[;6])/¨'()'∆Q j[;6]
+             j[;1]←j[;1],¨(×≢¨j[;5])/¨'()'∆Q j[;5]
+             j[;3]←j[;3],¨(×≢¨j[;6])/¨'()'∆Q j[;6]
              sql←j[;1],¨(','≠j[;2])/¨j[;2],¨j[;3]
              :If ∨/t←×≢¨j2 ⋄ (t/sql)←(⊂¨t/sql),¨3⌷[2]¨t/j2 ⋄ :EndIf
          :Else
@@ -402,7 +402,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
              j←joins[;3]∊j/joins[;3]
              on←⊃⍪/j/(joins[;4],¨⊂¨joins[;1]),¨⊂¨joins[;3]
              on←(~∨/('⍝'∊¨on[;1 3])∧on[;2 2]≠'⍵')⌿on ⍝ Ignore commented fields
-             :If ∨/t←on[;2]='⍵' ⋄ (t⌿on[;3])←7↓¨Where¨t⌿on[;3] ⋄ (t/on[;2])←⊂'' ⋄ :EndIf
+             :If ∨/t←1↓'⍵'=' ',on[;2] ⋄ (t⌿on[;3])←7↓¨Where¨t⌿on[;3] ⋄ (t/on[;2])←⊂'' ⋄ :EndIf
              :If ×⍴t←(~t)/⍳⍴t
                  on[t;1 3 4 5]←Q on[t;1 3 4 5]
                  on[t;2]←' ',¨on[t;2],¨' ' ⋄ on[t;1 3]←on[t;4 5],¨'.',¨on[t;1 3]
@@ -466,7 +466,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  'Length Error'⎕SIGNAL 5/⍨(2≤|≡clauses)∧1>¯1↑1,⍴clauses
  :If 0=⎕NC'options' ⋄ options←0⍴⊂'' ⋄ :EndIf
  :If 1=|≡options ⋄ options←⊂options ⋄ :EndIf
- :If unionall←×≢options←(,,¨options)~⊂''
+ :If ~unionall←~×≢options←(,,¨options)~⊂''
      unionall←~∨/t←∧/¨'∪'=(1⌈⍴¨options)↑¨options ⋄ options←(~t)/options
  :EndIf
  :If quest←×≢options
@@ -482,7 +482,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
          :Else
              sql←(options Select select),(From from),(Where where),(OrderBy order),(GroupBy group),Having having
          :EndIf
-     :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+     :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
  :Else ⍝ Generate a Select/Union statement
      'Length Error (Union)'⎕SIGNAL 5/⍨4<¯1↑⍴clauses ⋄ order←0⍴⊂''
      :If 4≤¯1↑⍴clauses ⋄ :AndIf 1<⍴t←order←clauses[;4] ⋄ :AndIf 1<⍴t←order←(×≢¨∆dim¨t)/t
@@ -494,12 +494,12 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
          :If ×⍴sql ⋄ sql,←' Union ',unionall/'All ' ⋄ :EndIf
          :If 0∊⍴from
              t←~(∆uc⊃¨∆cut¨options)∊∆uc'Distinct' 'Top' ⍝ Option keywords to ignore when selecting constants
-             :Trap 0 ⋄ sql,←(t/options)Select select ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+             :Trap 0 ⋄ sql,←(t/options)Select select ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
          :Else
-             :Trap 0 ⋄ sql,←(options Select select),(From from),Where where ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+             :Trap 0 ⋄ sql,←(options Select select),(From from),Where where ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
          :EndIf
      :EndFor
-     :Trap 0 ⋄ sql,←OrderBy order ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+     :Trap 0 ⋄ sql,←OrderBy order ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
  :EndIf
  sql←(quest⍴'?'),sql ⍝ Allow special prefix code of one or more "?"s
 ∇
@@ -612,7 +612,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  'Into cannot be done into multiple tables'⎕SIGNAL 11/⍨1<≢table
  'Into cannot be done into multiple tables'⎕SIGNAL 11/⍨∨/'→><≠∘='∊⊃table
  'Joined fields not permitted in a single table'⎕SIGNAL 11/⍨∨/'(,)'∊⊃table
- :Trap 0 ⋄ sql←' Into ',6↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+ :Trap 0 ⋄ sql←' Into ',6↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
 ∇
 
 ∇ sql←fieldname Is starpattern;t;pat;origfield;q;dr;num;op;sop;upper;wild;asis;likeonly;nolike;⎕PP;math;zilde;tcnul
@@ -824,7 +824,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  'Conflicting comparison operations'⎕SIGNAL 11/⍨1≠≢op~'↑⍬⍞*⍟⍎~÷'
  'Conflicting "Like" ("*"/"⍟") operations'⎕SIGNAL 11/⍨∧/'*⍟'∊op
  :If upper←'↑'∊op ⋄ fieldname←'Upper(',fieldname,')' ⋄ :EndIf
- zilde asis likeonly nolike math←'⍬⍞*⍟÷'∊op ⋄ op←op~'↑a⍞*⍟⍎÷' ⍝ Flags
+ zilde asis likeonly nolike math←'⍬⍞*⍟÷'∊op ⋄ op←op~'↑⍬⍞*⍟⍎÷' ⍝ Flags
  :If '~'∊op ⋄ op←'≠=≥><≤←→⍷∊'['=≠<≤≥>→←∊⍷'⍳op~'~'] ⋄ :EndIf ⍝ Invert test
  sop←'=' '<>' '<' '<=' '>=' '>' 'Between' 'Not Between'
  sop,←(1+0∊⍴fieldname)⊃('In' 'Not In')('Exists' 'Not Exists')
@@ -1029,11 +1029,11 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  ('The number of ⎕ characters in expression (',(⍕+/'⎕'=expression),' does not match the total length of arguments (',(⍕≢data),')')⎕SIGNAL 1/⍨(≢data)≠+/'⎕'=expression
      
      ⍝ Encode values differently based on their data type & depth
- t←⎕DR data←((⊂⊂'Null()')@{⍵∊⎕UCS 0})data ⋄ t←((3⌊|≡¨data)@{6=10|⍵})t ⍝ Pre-figure depth of nested items
- ⎕PP←15 ⋄ t←({⍕¨⍵}@{(10|⍵)∊1 3 5 7 9})t ⍝ Simple numeric values are encoded as constant numbers
- t←({'.'Q¨⍵}@{(10|⍵)∊0 2})t ⍝ Simple text values are assumed to be [table.]field names (most common usage)
- t←({''''∆Q¨⊃¨⍵}@{⍵∊2})t ⍝ Singly-nested values are assumed to be text strings to be treated as constant text data
- t←({⊃¨⊃¨⍵}@{⍵∊3})t ⍝ Doubly-nested values are assumed to be text strings to be treated as pre-formatted arguments
+ ⎕PP←15 ⋄ t←⎕DR¨data←((⊂⊂'Null()')@{⍵∊⎕UCS 0})data ⋄ ((6=10|t)/t)←1.1×3⌊|≡¨(6=10|t)/data ⍝ Pre-figure depth of nested items
+ data←({''''∆Q¨⊃¨⍵}@{t∊2.2})data ⍝ Singly-nested values are assumed to be text strings to be treated as constant text data
+ data←({⊃¨⊃¨⍵}@{t∊3.3})data ⍝ Doubly-nested values are assumed to be text strings to be treated as pre-formatted arguments
+ data←({⍕¨⍵}@{(10|t)∊1 3 5 7 9})data ⍝ Simple numeric values are encoded as constant numbers
+ data←({'.'Q¨⍵}@{(10|t)∊0 2})data ⍝ Simple text values are assumed to be [table.]field names (most common usage)
  sql←⊃,/1↓,('⎕',⍕¨data),[1.5]1↓¨(+\'⎕'='⎕',expression)⊆'⎕',expression ⍝ Replace all the '⎕'s with massaged data
 ∇
 
@@ -1047,12 +1047,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      ⍝ replaced.
      ⍝ Converted to Dyalog 12 December 2019 by Davin Church of Creative Software Design
      
- :If 1≥|≡data
-          ⍝ In v17.1, "@" doesn't work properly on a simple scalar ⎕NULL value!
-     :If ⎕NULL∊result←data ⋄ result←default ⋄ :EndIf
- :Else
-     result←((⊂default)@{⍵∊⍬ 1⍴¨⎕NULL})data
- :EndIf
+ result←⊃⍣(0=≡data)⊢(⍴data)⍴((⊂default)@{⍵∊⎕NULL}),data
 ∇
 
 ∇ results←defaults Nulls matrix
@@ -1273,7 +1268,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  :If 1≥|≡fields ⋄ fields←⊂fields ⋄ :EndIf ⋄ fields←,,¨fields
  :If ∨/t←1=|≡¨fields ⋄ (t/fields)←∆dtr¨¨⌽¨¯2↑¨'←'∆cut¨t/fields ⋄ :EndIf
  :If ∨/t←2≥|≡¨fields
-     :If noquote ⋄ (t/fields)~¨¨←'⍎' ⋄ :Else ⋄ (t/fields)←↓'.'Q↑2↑¨t/fields ⋄ :EndIf
+     :If noquote ⋄ (t/fields)~¨←'⍎' ⋄ :Else ⋄ (t/fields)←↓'.'Q↑2↑¨t/fields ⋄ :EndIf
  :EndIf
  :If ∨/t←3≤|≡¨fields
      (t/fields)←(⊂¨((⊃¨1⊃¨t/fields)Math¨1↓¨1⊃¨t/fields)~¨'⍎'),¨1↓¨t/fields
@@ -1309,13 +1304,13 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      ⍝ First analyze alternate argument structures
  :If 0=⎕NC'fields'               ⍝ -- Monadic use
      :Select ≢⍴values
-     :Case 1                     ⍝ -- Vector
+     :CaseList 0 1               ⍝ -- Scalar or Vector
          :If 1≥|≡⊃values         ⍝ -- A single Name:Value pair
              fields values←,¨⊂¨values ⋄ fields←,¨fields
          :Else                   ⍝ -- A nested vector of Name:Value pairs
-             'Rank Error'⎕SIGNAL 4/⍨∨/1≠≢¨values
+             'Rank Error'⎕SIGNAL 4/⍨∨/1≠≢¨⍴¨values
              'Length Error'⎕SIGNAL 5/⍨∨/2≠≢¨values
-             fields←,¨1⊃¨values ⋄ values←2⊃¨values
+             fields←,,¨1⊃¨values ⋄ values←,2⊃¨values
          :EndIf
      :Case 2                     ⍝ -- Matrix
          'Length Error'⎕SIGNAL 5/⍨2≠¯1↑⍴values
@@ -1338,8 +1333,8 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      ⍝ Ok, we're ready to start formatting
  (t/values)←,¨t/values ⋄ ((~t)/values)←⊃¨(~t)/values ⍝ Coerce ranks
  :If ∨/t←(2≤|≡¨values)∧1<≢¨values ⋄ (t/values)←⊂¨(,¨⊃¨t/values)Math¨1↓¨t/values ⋄ :EndIf
- values←((⊂⊂'Null')@{⍵∊⎕UCS 0})((⊂⊂'Default')@{⍵∊⎕UCS 127})values
- :Trap 0 ⋄ values←(⊂q)∆csv¨⊂¨values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+ values←((⊂⊂'Null')@{(⎕UCS 0)∊¨⍵})((⊂⊂'Default')@{(⎕UCS 127)∊¨⍵})values
+ :Trap 0 ⋄ values←(⊂q)∆csv¨⊂¨values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
  sql←' Set ',', '∆sew' = '∆sew('.'Q fields),[1.5]values
 ∇
 
@@ -1402,11 +1397,11 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      ⍝ Prepare the variable names for use and check proper localization
  (((∊names)∊'~∧')/∊names)←'∆' ⋄ (((∊names)∊'. ')/∊names)←'_' ⍝ Convert to legal variable names
  ((~(∊names)∊'∆⍙_¯',⎕D,⎕A,819⌶⎕A)/∊names)←'⍙' ⍝ Convert to legal variable names
- 'Domain Error (Names) - Unable to assign'⎕SIGNAL 11/⍨~∧/(⎕NC↑names)∊0 2
+ 'Domain Error (Names) - Unable to assign'⎕SIGNAL 11/⍨~∧/((⊃⎕RSI).⎕NC↑names)∊0 2
      
      ⍝ Data and variables are checked and ready - make the assignments
  records←empty↓¨↓[1]records ⋄ :If scalar ⋄ records←⊃¨records ⋄ :EndIf ⍝ Select output structure
- ⍎(⍕names),'←records' ⍝ Strand-assign all the names at once!
+ ⍎(⍕(⊂(⊃⎕NSI),'.'),¨names),'←records' ⍝ Strand-assign all the names at once!
 ∇
 
 ∇ sql←Upd clauses;table;set;where
@@ -1428,7 +1423,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  :Trap 0
      :If 1<|≡set ⋄ set←Set set ⋄ :EndIf ⍝ Permit Set to be called before now, as well as not
      sql←(Update table),set,Where where
- :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
 ∇
 
 ∇ sql←Update table
@@ -1443,7 +1438,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  'Cannot Update joined tables'⎕SIGNAL 11/⍨1<≢table
  'Cannot Update joined tables'⎕SIGNAL 11/⍨∨/'→><≠∘='∊⊃table
  'Cannot Update joined tables'⎕SIGNAL 11/⍨∨/'(,)'∊⊃table
- :Trap 0 ⋄ sql←'Update',5↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+ :Trap 0 ⋄ sql←'Update',5↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
 ∇
 
 ∇ sql←Values values;q;t;n;rho
@@ -1470,7 +1465,7 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  'Data Rank Error'⎕SIGNAL 4/⍨∨/((~n)+t←n∨t∊0 2)<≢¨⍴¨values
  (t/values)←,¨t/values ⋄ ((~t)/values)←⊃¨(~t)/values ⍝ Coerce ranks
  values←((⊂⊂'Null')@{⍵∊⎕UCS 0})((⊂⊂'Default')@{⍵∊⎕UCS 127})values
- :Trap 0 ⋄ sql←'()'∆Q q', '∆csv rho⍴values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
+ :Trap 0 ⋄ sql←'()'∆Q q', '∆csv rho⍴values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
  :If 1<|≡sql ⋄ sql←', '∆sew sql ⋄ :EndIf ⋄ sql←' Values ',sql
      
      ⍝? Allow use of deeply-nested data to call Math internally?
@@ -1725,6 +1720,6 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
  :If 1=⍴⍴values ⋄ text←⊃text ⋄ :Else ⋄ text←1↓[1]text ⋄ :EndIf
 ∇
 
- ∆uc←{1(819⌶)⍵}
+ ∆uc←{0∊⍴⍵:⍵ ⋄ 1(819⌶)⍵}
 
 :EndNamespace 
