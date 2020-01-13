@@ -1397,11 +1397,11 @@ Config∆PSQL_ODBC←(('s_Config[1] ← This description (for documentation only
      ⍝ Prepare the variable names for use and check proper localization
  (((∊names)∊'~∧')/∊names)←'∆' ⋄ (((∊names)∊'. ')/∊names)←'_' ⍝ Convert to legal variable names
  ((~(∊names)∊'∆⍙_¯',⎕D,⎕A,819⌶⎕A)/∊names)←'⍙' ⍝ Convert to legal variable names
- 'Domain Error (Names) - Unable to assign'⎕SIGNAL 11/⍨~∧/((⊃⎕RSI).⎕NC↑names)∊0 2
+ 'Domain Error (Names) - Unable to assign'⎕SIGNAL 11/⍨~∧/(⎕RSI[1].⎕NC↑names)∊0 2
      
      ⍝ Data and variables are checked and ready - make the assignments
  records←empty↓¨↓[1]records ⋄ :If scalar ⋄ records←⊃¨records ⋄ :EndIf ⍝ Select output structure
- ⍎(⍕(⊂(⊃⎕NSI),'.'),¨names),'←records' ⍝ Strand-assign all the names at once!
+ ⎕RSI[1].⍎(⍕names),'←',(⍕⎕THIS),'.records' ⍝ Strand-assign all the names at once!
 ∇
 
 ∇ sql←Upd clauses;table;set;where
