@@ -207,7 +207,7 @@
  'Conflicting comparison operations'⎕SIGNAL 11/⍨1≠≢op~'↑⍬⍞*⍟⍎~÷'
  'Conflicting "Like" ("*"/"⍟") operations'⎕SIGNAL 11/⍨∧/'*⍟'∊op
  :If upper←'↑'∊op ⋄ fieldname←'Upper(',fieldname,')' ⋄ :EndIf
- zilde asis likeonly nolike math←'⍬⍞*⍟÷'∊op ⋄ op←op~'↑a⍞*⍟⍎÷' ⍝ Flags
+ zilde asis likeonly nolike math←'⍬⍞*⍟÷'∊op ⋄ op←op~'↑⍬⍞*⍟⍎÷' ⍝ Flags
  :If '~'∊op ⋄ op←'≠=≥><≤←→⍷∊'['=≠<≤≥>→←∊⍷'⍳op~'~'] ⋄ :EndIf ⍝ Invert test
  sop←'=' '<>' '<' '<=' '>=' '>' 'Between' 'Not Between'
  sop,←(1+0∊⍴fieldname)⊃('In' 'Not In')('Exists' 'Not Exists')

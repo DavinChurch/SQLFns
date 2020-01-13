@@ -74,9 +74,9 @@
  ('The number of ⎕ characters in expression (',(⍕+/'⎕'=expression),' does not match the total length of arguments (',(⍕≢data),')')⎕SIGNAL 1/⍨(≢data)≠+/'⎕'=expression
 
 ⍝ Encode values differently based on their data type & depth
- t←⎕DR data←((⊂⊂'Null()')@{⍵∊⎕UCS 0})data ⋄ t←((3⌊|≡¨data)@{6=10|⍵})t ⍝ Pre-figure depth of nested items
- ⎕PP←15 ⋄ t←({⍕¨⍵}@{(10|⍵)∊1 3 5 7 9})t ⍝ Simple numeric values are encoded as constant numbers
- t←({'.'Q¨⍵}@{(10|⍵)∊0 2})t ⍝ Simple text values are assumed to be [table.]field names (most common usage)
- t←({''''∆Q¨⊃¨⍵}@{⍵∊2})t ⍝ Singly-nested values are assumed to be text strings to be treated as constant text data
- t←({⊃¨⊃¨⍵}@{⍵∊3})t ⍝ Doubly-nested values are assumed to be text strings to be treated as pre-formatted arguments
+ ⎕PP←15 ⋄ t←⎕DR¨data←((⊂⊂'Null()')@{⍵∊⎕UCS 0})data ⋄ ((6=10|t)/t)←1.1×3⌊|≡¨(6=10|t)/data ⍝ Pre-figure depth of nested items
+ data←({''''∆Q¨⊃¨⍵}@{t∊2.2})data ⍝ Singly-nested values are assumed to be text strings to be treated as constant text data
+ data←({⊃¨⊃¨⍵}@{t∊3.3})data ⍝ Doubly-nested values are assumed to be text strings to be treated as pre-formatted arguments
+ data←({⍕¨⍵}@{(10|t)∊1 3 5 7 9})data ⍝ Simple numeric values are encoded as constant numbers
+ data←({'.'Q¨⍵}@{(10|t)∊0 2})data ⍝ Simple text values are assumed to be [table.]field names (most common usage)
  sql←⊃,/1↓,('⎕',⍕¨data),[1.5]1↓¨(+\'⎕'='⎕',expression)⊆'⎕',expression ⍝ Replace all the '⎕'s with massaged data

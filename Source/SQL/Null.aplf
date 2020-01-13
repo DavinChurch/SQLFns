@@ -8,4 +8,4 @@
 ⍝ replaced.
 ⍝ Converted to Dyalog 12 December 2019 by Davin Church of Creative Software Design
 
- result←(⍴data)⍴((⊂default)@{⍵∊⎕NULL}),data
+ result←⊃⍣(0=≡data)⊢(⍴data)⍴((⊂default)@{⍵∊⎕NULL}),data

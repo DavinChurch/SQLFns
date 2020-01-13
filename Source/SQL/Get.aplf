@@ -32,7 +32,7 @@
  'Length Error'⎕SIGNAL 5/⍨(2≤|≡clauses)∧1>¯1↑1,⍴clauses
  :If 0=⎕NC'options' ⋄ options←0⍴⊂'' ⋄ :EndIf
  :If 1=|≡options ⋄ options←⊂options ⋄ :EndIf
- :If unionall←×≢options←(,,¨options)~⊂''
+ :If ~unionall←~×≢options←(,,¨options)~⊂''
      unionall←~∨/t←∧/¨'∪'=(1⌈⍴¨options)↑¨options ⋄ options←(~t)/options
  :EndIf
  :If quest←×≢options

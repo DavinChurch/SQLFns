@@ -21,13 +21,13 @@
 ⍝ First analyze alternate argument structures
  :If 0=⎕NC'fields'               ⍝ -- Monadic use
      :Select ≢⍴values
-     :Case 1                     ⍝ -- Vector
+     :CaseList 0 1               ⍝ -- Scalar or Vector
          :If 1≥|≡⊃values         ⍝ -- A single Name:Value pair
              fields values←,¨⊂¨values ⋄ fields←,¨fields
          :Else                   ⍝ -- A nested vector of Name:Value pairs
-             'Rank Error'⎕SIGNAL 4/⍨∨/1≠≢¨values
+             'Rank Error'⎕SIGNAL 4/⍨∨/1≠≢¨⍴¨values
              'Length Error'⎕SIGNAL 5/⍨∨/2≠≢¨values
-             fields←,¨1⊃¨values ⋄ values←2⊃¨values
+             fields←,,¨1⊃¨values ⋄ values←,2⊃¨values
          :EndIf
      :Case 2                     ⍝ -- Matrix
          'Length Error'⎕SIGNAL 5/⍨2≠¯1↑⍴values
@@ -50,6 +50,6 @@
 ⍝ Ok, we're ready to start formatting
  (t/values)←,¨t/values ⋄ ((~t)/values)←⊃¨(~t)/values ⍝ Coerce ranks
  :If ∨/t←(2≤|≡¨values)∧1<≢¨values ⋄ (t/values)←⊂¨(,¨⊃¨t/values)Math¨1↓¨t/values ⋄ :EndIf
- values←((⊂⊂'Null')@{⍵∊⎕UCS 0})((⊂⊂'Default')@{⍵∊⎕UCS 127})values
+ values←((⊂⊂'Null')@{(⎕UCS 0)∊¨⍵})((⊂⊂'Default')@{(⎕UCS 127)∊¨⍵})values
  :Trap 0 ⋄ values←(⊂q)∆csv¨⊂¨values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
  sql←' Set ',', '∆sew' = '∆sew('.'Q fields),[1.5]values
