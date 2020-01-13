@@ -1,0 +1,15 @@
+ Set;fn
+ fn←#.SQL.Set
+ 'me'(fn Pass' Set me = 1')1
+ 'me' 'you'(fn Pass' Set me = 1, you = 2')1 2
+ (fn Pass' Set me = 1')⊂'me' 1
+ (fn Pass' Set me = 1, you = 2')('me' 1)('you' 2)
+ (fn Pass' Set me = 1, you = 2')↑('me' 1)('you' 2)
+ 'me'(fn Pass' Set me = Null')⎕UCS 0
+ 'me'(fn Pass' Set me = Default')⎕UCS 127
+ 'me'(fn Pass' Set me = Null')⎕NULL
+ (fn Pass' Set me = Null')⊂'me'(⎕UCS 0)
+ (fn Pass' Set me = Null')⊂'me'⎕NULL
+ 'me'(fn Pass' Set me = ''you''')'you'
+ 'me'(fn Pass' Set me = you')⊂'you'
+ 'me'(fn Pass' Set me = RTrim(you)')'RTrim(⎕)' 'you'

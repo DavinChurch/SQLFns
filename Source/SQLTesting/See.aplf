@@ -1,0 +1,6 @@
+ See;fn;x
+ fn←#.SQL.See
+ x←'Select *' '    From Here' '    Where' '        ID > 9'
+ (fn Pass(¯1↓∊x,¨⎕UCS 13))1↓∊' ',¨{⍵⌽⍨+/∧\' '=⍵}¨x
+ x←'Select State, Count(*)' '    From There' '    Where' '        ID > 0' '        And Name <> ''''' '    Group By State'
+ (fn Pass(¯1↓∊x,¨⎕UCS 13))1↓∊' ',¨{⍵⌽⍨+/∧\' '=⍵}¨x

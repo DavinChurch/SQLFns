@@ -1,0 +1,5 @@
+ Update;fn
+ fn←#.SQL.Update
+ (fn Pass'Update Somewhere')'Somewhere'
+ (fn Fail'Missing table name to Update')''
+ (fn Fail'Cannot Update joined tables')'Some' 'Where'

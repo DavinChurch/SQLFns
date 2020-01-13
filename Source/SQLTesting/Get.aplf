@@ -1,0 +1,13 @@
+ Get;fn
+ fn←#.SQL.Get
+ (fn Pass'Select * From here')'*' 'here'
+ '?'(fn Pass'?Select * From here')'*' 'here'
+ '??'(fn Pass'??Select * From here')'*' 'here'
+ 'Top 5'(fn Pass'Select Top 5 * From here')'*' 'here'
+ (fn Pass'Select * From here Where age > 17')'*' 'here' 'age > 17'
+ (fn Pass'Select name From here Where age > 17 Order By name')'name' 'here' 'age > 17' 'name'
+ (fn Pass'Select name From here Where age > 17 Order By name Group By name Having count(*) > 1')'name' 'here' 'age > 17' 'name' 'name' 'count(*) > 1'
+ (fn Pass'Select name From here Where age > 17 Union All Select name From there Where age > 17')2 3⍴'name' 'here' 'age > 17','name' 'there' 'age > 17'
+ '∪'(fn Pass'Select name From here Where age > 17 Union Select name From there Where age > 17')2 3⍴'name' 'here' 'age > 17','name' 'there' 'age > 17'
+ '∪' 'Distinct'(fn Pass'Select Distinct name From here Where age > 17 Union Select Distinct name From there Where age > 17')2 3⍴'name' 'here' 'age > 17','name' 'there' 'age > 17'
+ 'Distinct'(fn Pass'Select Distinct name From here Where age > 17 Union All Select Distinct name From there Where age > 17')2 3⍴'name' 'here' 'age > 17','name' 'there' 'age > 17'

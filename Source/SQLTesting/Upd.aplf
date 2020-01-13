@@ -1,0 +1,4 @@
+ Upd;fn
+ fn←#.SQL.Upd
+ (fn Pass'Update Data Set Valid = 1 Where Id = 123')'Data'(⊂'Valid' 1)(⊂'Id' 123)
+ (fn Pass'Update Data Set Valid = 1 Where Id = 123')'Data'('Valid'#.SQL.Set 1)('Id'#.SQL.Is 123)

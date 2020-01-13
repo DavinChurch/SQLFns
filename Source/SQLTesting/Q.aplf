@@ -1,0 +1,13 @@
+ Q;fn
+ fn←#.SQL.Q
+ (fn Pass'foo')'foo'
+ (fn Pass(,'*'))'*'
+ (fn Pass'Count(*)')'Count(*)'
+ (fn Pass'"order"')'order'
+ (fn Pass'"my.table"')'my.table'
+ '.'(fn Pass'my."table"')'my.table'
+ (fn Pass'"funny%field"')'funny%field'
+ (fn Pass'funny%field')'⍎funny%field'
+ (fn Pass(⊂'"funny%field"'))⊂'funny%field'
+ (fn Pass(⊂'funny%field'))⊂⊂'funny%field'
+ '.'(fn Pass(,¨'*' 'Count(*)' '"order"' 'my."table"' 'funny%field' 'funny%field'))'*' 'Count(*)' 'order' 'my.table' '⍎funny%field'(⊂'funny%field')

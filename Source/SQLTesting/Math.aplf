@@ -1,0 +1,10 @@
+ Math;fn
+ fn←#.SQL.Math
+ 'RTrim'(fn Pass'RTrim(field)')'field'
+ 'RTrim'(fn Pass'RTrim("table".field)')'table.field'
+ 'RTrim'(fn Pass'RTrim("funny%field")')'funny%field'
+ 'Left'(fn Pass'Left(field,10)')'field' 10
+ 'Left(⎕,⎕)'(fn Pass'Left(field,10)')'field' 10
+ 'Concat(Concat(RTrim(⎕),⎕),RTrim(⎕))'(fn Pass'Concat(Concat(RTrim(city),state),RTrim(zip))')'city' 'state' 'zip'
+ 'If(⎕=⎕)'(fn Pass'If("table"=''xyz'')')'table'(⊂'xyz')
+ 'If(⎕=⎕)'(fn Pass'If("table"=table)')'table'(⊂⊂'table')

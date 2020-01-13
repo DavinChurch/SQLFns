@@ -31,7 +31,7 @@
  :Else
      result←left testfn right
      :If ~failure
-         rpt←'Test-fn produced a result:',(⎕UCS 13),⍕result
+         rpt←'Test-fn produced a result:',(⎕UCS 13),⎕SE.UCMD'Disp result'
      :EndIf
  :EndIf
  ⎕TRAP←0/⎕TRAP

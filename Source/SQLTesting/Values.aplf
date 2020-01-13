@@ -1,0 +1,4 @@
+ Values;fn
+ fn←#.SQL.Values
+ (fn Pass' Values (''Davin'', ''Church'', 75074)')'Davin' 'Church' 75074
+ (fn Pass' Values (''Me'', 111), (''You'', 222)')↑('Me' 111)('You' 222)

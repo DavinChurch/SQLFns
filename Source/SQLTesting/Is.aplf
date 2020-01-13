@@ -1,0 +1,28 @@
+ Is;fn;get
+ fn←#.SQL.Is ⋄ get←#.SQL.Get
+ 'Name'(fn Pass'')''
+ 'Name'(fn Pass'Name = ''Davin''')'Davin'
+ 'Choice'(fn Pass'Choice In (2, 3, 5, 7)')2 3 5 7
+ 'Name'(fn Pass'Name Like ''Da%''')'Da*'
+ 'Name'(fn Pass'(Name = ''Bob'' Or Name Like ''Fred%'' Or Name Like ''Rob%'')')'Fred*' 'Bob' 'Rob*'
+ 'Flag'(fn Pass'Flag In (''A'', ''B'', ''C'', ''X'')'),¨'ABCX'
+ 'Name'(fn Pass'')''
+ 'Name'(fn Pass'Name = '''''),¨' '
+ 'Name'(fn Pass'Name Is Null')⎕UCS 0
+ 'Name'(fn Pass'Name Is Null')⎕NULL
+ 'Amount~'(fn Pass'Amount <> 0')0
+ 'Qty~'(fn Pass'Qty Not In (1, 2, 3, 4, 5)')⍳5
+ 'Qty≥'(fn Pass'Qty >= 100')100
+ 'Qty→'(fn Pass'Qty Between 100 And 500')100 500
+ 'Name∊'(fn Pass'Name In (Select FirstName From Employees)')get'FirstName' 'Employees'
+ '∊'(fn Pass'Exists (Select * From Employees Where Pay > 100000)')get'*' 'Employees' 'Pay > 100000'
+ 'Name↑'(fn Pass'Upper(Name) = ''DAVIN''')'Davin'
+ 'City⍬'(fn Pass'City = ''''')''
+ 'Name⍞'(fn Pass'Name = Manager')'Manager'
+ 'Name⍞*'(fn Pass'Name Like ?')'?'
+ 'Name⍟'(fn Pass'Name = ''me*too''')'me*too'
+ '*'(fn Pass'me%too')'me*too'
+ 'Left(Name,5)⍎'(fn Pass'Left(Name,5) = ''Davin''')'Davin'
+ 'Age÷'(fn Pass'Age = Floor(12.34)')'Floor(⎕)' 12.34
+ 'Name' 'Pay' 'State'(fn Pass'Name = ''Davin'' And Pay = 100000 And State = ''TX''')'Davin' 100000 'TX'
+ 'City' 'State'(fn Pass'((City = ''Dallas'' And State = ''TX'') Or (City = ''Washington'' And State = ''DC''))')2 2⍴'Dallas' 'TX' 'Washington' 'DC'

@@ -1,0 +1,7 @@
+ Split;fn;name;city;zip;ncz;ttl;chkncz1;chkncz2
+ fn←#.SQL.Split ⋄ chkncz1←{name city zip≡ncz[1;]} ⋄ chkncz2←{name city zip≡↓[1]ncz}
+ ttl←'name' 'city' 'zip'
+ ncz←2 3⍴'Davin' 'Dallas' 75074,'Fred' 'NY' 12345
+ ⎕EX ttl ⋄ ttl(fn Pass_ chkncz2)ncz
+ ⎕EX ttl ⋄ (fn Pass_ chkncz2)ttl⍪ncz
+ ⎕EX ttl ⋄ ttl(fn Pass_ chkncz1)ncz[1;]

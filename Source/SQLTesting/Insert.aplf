@@ -1,0 +1,5 @@
+ Insert;fn
+ fn←#.SQL.Insert
+ (fn Pass'Insert Into big')'big'
+ (fn Fail'Insert cannot be done into multiple tables')'big→none'
+ 'one'(fn Pass'Insert Into big (one)')'big'

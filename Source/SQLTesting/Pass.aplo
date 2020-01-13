@@ -40,7 +40,7 @@
  :If 0∊⍴rpt
      :Trap 0
          :If ~validate result
-             rpt←'Validation failed on result:',,(⎕UCS 13),⍕result
+             rpt←'Validation failed on result:',,(⎕UCS 13),⎕SE.UCMD'Disp result'
          :EndIf
      :Else
          rpt←'Validation processing function failed to complete!',∊(⎕UCS 13),[⎕IO+0.5]⎕DM

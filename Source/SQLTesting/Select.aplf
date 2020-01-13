@@ -1,0 +1,13 @@
+ Select;fn
+ fn←#.SQL.Select
+ (fn Pass'Select *')'*'
+ (fn Pass'Select foo')'foo'
+ (fn Pass'Select Name1, Name2, Name3')'Name1' 'Name2' 'Name3'
+ (fn Pass'Select Name1 As hisname, Name2 As hername')'hisname←Name1' 'hername←Name2'
+ (fn Pass'Select foo As goo')⊂'foo' 'goo'
+ (fn Pass'Select foo As goo')⊂'goo←foo'
+ (fn Pass'Select foo As goo')'goo←foo'
+ (fn Pass'Select foo As goo, moo')2 2⍴'foo' 'goo' 'moo' ''
+ (fn Pass'Select Length(RTrim(foo)) As foolen')⊂('Length(RTrim(⎕))' 'foo')'foolen'
+ 'Distinct'(fn Pass'Select Distinct foo')'foo'
+ '⍎'(fn Pass'Select table, column')'table' 'column'

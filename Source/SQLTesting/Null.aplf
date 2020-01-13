@@ -1,0 +1,8 @@
+ Null;fn
+ fn←#.SQL.Null
+ '(none)'(fn Pass'Hello')'Hello'
+ '(none)'(fn Pass'(none)')⎕NULL
+ '(none)'(fn Pass(,⊂'(none)')),⎕NULL
+ '(none)'(fn Pass'Hello' 'there')'Hello' 'there'
+ '(none)'(fn Pass'(none)' 'there')⎕NULL'there'
+ 0(fn Pass(2 2⍴'Hello' 0 0 'there'))2 2⍴'Hello'⎕NULL ⎕NULL'there'
