@@ -20,7 +20,7 @@
      (t/,newwords)←1↓¨∆sew¨(1↑¨¨x),¨¨Q¨1↓¨¨x
  :EndIf
 
- w∧←(~t)∧,((∆uc¨newwords)∊rw)∨(~1↓[1]∧/¨1⍪newwords∊¨⊂legal)∨(⊃¨newwords)∊¨⊂(10+⍴lc)↑legal
+ w∧←(~t)∧,((∆uc newwords)∊rw)∨(~1↓[1]∧/¨1⍪newwords∊¨⊂legal)∨(⊃¨newwords)∊¨⊂(10+⍴lc)↑legal
  w∧←~,(newwords∊⊂,'*')∨(¯3↑¨newwords)∊⊂'(*)' ⍝ Preserve special cases as always-keyword
  :If ∨/t←'⍎'∊¨w/,newwords ⋄ (t/w/,newwords)←(t/w/,newwords)~¨'⍎' ⋄ w←w\~t ⋄ :EndIf
  :If ∨/w ⋄ w←w\(⊂⌽2⍴q)≢¨¯1⌽¨w/,newwords ⋄ :EndIf ⍝ Ignore already-quoted words

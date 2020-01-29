@@ -16,5 +16,6 @@
  table set where←clauses
  :Trap 0
      :If 1<|≡set ⋄ set←Set set ⋄ :EndIf ⍝ Permit Set to be called before now, as well as not
-     sql←(Update table),set,Where where
+     :If 'SET'≢3↑∆dlt ∆uc set ⋄ set←' Set ',∆dlt set ⋄ :EndIf ⍝ Add clause name if missing
+     sql←(Update table),((' '≠⊃set)/' '),set,Where where
  :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap

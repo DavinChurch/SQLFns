@@ -55,7 +55,7 @@
  'Length Error (Names)'⎕SIGNAL 5/⍨(⍴names)≠¯1↑⍴records
 
 ⍝ Prepare the variable names for use and check proper localization
- (((∊names)∊'~∧')/∊names)←'∆' ⋄ (((∊names)∊'. ')/∊names)←'_' ⍝ Convert to legal variable names
+ (((∊names)∊'~∧')/∊names)←'∆' ⋄ (((∊names)∊' ')/∊names)←'_' ⍝ Convert to legal variable names
  ((~(∊names)∊'∆⍙_¯',⎕D,⎕A,819⌶⎕A)/∊names)←'⍙' ⍝ Convert to legal variable names
  'Domain Error (Names) - Unable to assign'⎕SIGNAL 11/⍨~∧/(⎕RSI[1].⎕NC↑names)∊0 2
 
