@@ -1,5 +1,5 @@
  Math;fn
- fn←#.SQL.Math
+ fn←#.SQLFns.Math
  'RTrim'(fn Pass'RTrim(field)')'field'
  'RTrim'(fn Pass'RTrim("table".field)')'table.field'
  'RTrim'(fn Pass'RTrim("funny%field")')'funny%field'

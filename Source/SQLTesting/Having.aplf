@@ -1,4 +1,4 @@
  Having;fn
- fn←#.SQL.Having
+ fn←#.SQLFns.Having
  (fn Pass'')''
  (fn Pass' Having count(*) > 1')'count(*) > 1'

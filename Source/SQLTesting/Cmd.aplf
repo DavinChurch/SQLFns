@@ -1,5 +1,5 @@
  Cmd;fn
- fn←#.SQL.Cmd
+ fn←#.SQLFns.Cmd
  (fn Pass'Select * From tab')'Select * From tab'
  (fn Pass'Select * From tab')'*' 'tab'
  (fn Pass'Select * From tab')'∇Get' '*' 'tab'

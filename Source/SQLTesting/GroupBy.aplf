@@ -1,5 +1,5 @@
  GroupBy;fn
- fn←#.SQL.GroupBy
+ fn←#.SQLFns.GroupBy
  (fn Pass'')''
  (fn Pass' Group By firstname')'firstname'
  (fn Pass' Group By firstname, lastname')'firstname' 'lastname'

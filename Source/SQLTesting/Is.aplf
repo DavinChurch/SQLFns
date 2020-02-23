@@ -1,5 +1,5 @@
  Is;fn;get
- fn←#.SQL.Is ⋄ get←#.SQL.Get
+ fn←#.SQLFns.Is ⋄ get←#.SQLFns.Get
  'Name'(fn Pass'')''
  'Name'(fn Pass'Name = ''Davin''')'Davin'
  'Choice'(fn Pass'Choice In (2, 3, 5, 7)')2 3 5 7

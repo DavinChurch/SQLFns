@@ -1,5 +1,5 @@
  Ins;fn
- fn←#.SQL.Ins
+ fn←#.SQLFns.Ins
  (fn Pass'Insert Into newtab Values (3.14, 777, ''testing'')')'newtab'(3.14 777 'testing')
  (fn Pass'Insert Into newtab (pi, miles, "mode") Values (3.14, 777, ''testing'')')('newtab'('pi' 'miles' 'mode'))(3.14 777 'testing')
  (fn Pass'Insert Into newtab (pi, miles, "mode") Values (3.14, 777, ''testing'')')'newtab'('pi' 'miles' 'mode',[1.5]3.14 777 'testing')

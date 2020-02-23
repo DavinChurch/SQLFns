@@ -1,4 +1,4 @@
  Into;fn
- fn←#.SQL.Into
+ fn←#.SQLFns.Into
  (fn Pass' Into other')'other'
  (fn Fail'Into cannot be done into multiple tables')'other>not'

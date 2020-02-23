@@ -1,5 +1,5 @@
  Or;fn
- fn←#.SQL.Or ⍝ Reference to function to be tested
+ fn←#.SQLFns.Or ⍝ Reference to function to be tested
  'AA'(fn Pass'AA Or BB')'BB'
  (fn Pass'AA')'AA'
  (fn Pass(,'A'))'A'

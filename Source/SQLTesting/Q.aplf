@@ -1,5 +1,5 @@
  Q;fn
- fn←#.SQL.Q
+ fn←#.SQLFns.Q
  (fn Pass'foo')'foo'
  (fn Pass(,'*'))'*'
  (fn Pass'Count(*)')'Count(*)'

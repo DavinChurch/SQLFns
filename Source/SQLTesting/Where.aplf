@@ -1,8 +1,8 @@
  Where;fn
- fn←#.SQL.Where
+ fn←#.SQLFns.Where
  (fn Pass' Where Age >= 65')'Age >= 65'
  (fn Pass' Where Age >= 65 And Age < 80')'Age >= 65' 'Age < 80'
- (fn Pass' Where Age >= 65')'Age≥'#.SQL.Is 65
+ (fn Pass' Where Age >= 65')'Age≥'#.SQLFns.Is 65
  (fn Pass' Where Age >= 65')⊂'Age≥' 65
  (fn Pass' Where Age >= 65 And Age < 80')('Age≥' 65)('Age<' 80)
  (fn Pass' Where Age >= 65 And Age < 80')↑('Age≥' 65)('Age<' 80)

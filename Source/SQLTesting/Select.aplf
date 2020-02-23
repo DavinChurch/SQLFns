@@ -1,5 +1,5 @@
  Select;fn
- fn←#.SQL.Select
+ fn←#.SQLFns.Select
  (fn Pass'Select *')'*'
  (fn Pass'Select foo')'foo'
  (fn Pass'Select Name1, Name2, Name3')'Name1' 'Name2' 'Name3'

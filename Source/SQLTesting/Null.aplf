@@ -1,5 +1,5 @@
  Null;fn
- fn←#.SQL.Null
+ fn←#.SQLFns.Null
  '(none)'(fn Pass'Hello')'Hello'
  '(none)'(fn Pass'(none)')⎕NULL
  '(none)'(fn Pass(,⊂'(none)')),⎕NULL

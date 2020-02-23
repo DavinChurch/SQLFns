@@ -1,4 +1,4 @@
  Nulls;fn
- fn←#.SQL.Nulls
+ fn←#.SQLFns.Nulls
  '' 0 '--' ''(fn Pass'This' 0 '--' 'test')'This'⎕NULL ⎕NULL'test'
  '' '' 0(fn Pass(2 3⍴'This' '' 42 'is a' 'test' 0))2 3⍴'This'⎕NULL 42 'is a' 'test'⎕NULL

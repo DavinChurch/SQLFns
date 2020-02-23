@@ -1,5 +1,5 @@
  From;fn;chk;defis
- fn←#.SQL.From ⋄ defis←{#.SQL.From_Defaults≡⍵}
+ fn←#.SQLFns.From ⋄ defis←{#.SQLFns.From_Defaults≡⍵}
  '←'fn'' ⍝ Reset any memorized tables
  (fn Pass' From me')'me'
  (fn Pass' From me, you')'me' 'you'
@@ -22,4 +22,4 @@
  '?'(fn Pass(,⊂'me(mm)→you(yy)'))'me(mm)→you(yy)'
  '?'(fn Pass(,⊂'me(mm)→you(yy)'))'me(⍝mm)→you(⍝yy)'
  '←'(fn Pass_{defis 0 4⍴⊂''})''
- #.SQL.⎕EX'From_Defaults'
+ #.SQLFns.⎕EX'From_Defaults'

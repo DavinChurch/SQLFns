@@ -1,5 +1,5 @@
  OrderBy;fn
- fn←#.SQL.OrderBy
+ fn←#.SQLFns.OrderBy
  (fn Pass' Order By foo')'foo'
  (fn Pass' Order By foo, bar')'foo' 'bar'
  (fn Pass' Order By foo Desc')'⍒foo'

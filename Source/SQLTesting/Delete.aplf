@@ -1,3 +1,3 @@
  Delete;fn
- fn←#.SQL.Delete
+ fn←#.SQLFns.Delete
  (fn Pass'Delete From tab')'tab'

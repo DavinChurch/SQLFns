@@ -1,5 +1,5 @@
  And;fn
- fn←#.SQL.And ⍝ Reference to function to be tested
+ fn←#.SQLFns.And ⍝ Reference to function to be tested
  'AA'(fn Pass'AA And BB')'BB'
  (fn Pass'AA')'AA'
  (fn Pass(,'A'))'A'
