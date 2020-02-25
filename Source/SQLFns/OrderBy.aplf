@@ -8,4 +8,4 @@
 
  :If 1≥|≡fields ⋄ fields←⊂,fields ⋄ :EndIf
  desc←('' ' Desc')[1+'⍒'∊¨fields←,,¨fields] ⋄ fields~¨←⊂'⍋⍒'
- sql←', '∆sew('.'Q fields),¨desc ⋄ sql←((×⍴sql)/' Order By '),sql
+ sql←', '∆sew('.'Quote fields),¨desc ⋄ sql←((×⍴sql)/' Order By '),sql

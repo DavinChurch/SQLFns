@@ -5,4 +5,4 @@
 ⍝ Converted to Dyalog 8 November 2019 by Davin Church of Creative Software Design
 
  :If 1≥|≡fields ⋄ fields←⊂,fields ⋄ :EndIf
- sql←', '∆sew'.'Q fields ⋄ sql←((×⍴sql)/' Group By '),sql
+ sql←', '∆sew'.'Quote fields ⋄ sql←((×⍴sql)/' Group By '),sql

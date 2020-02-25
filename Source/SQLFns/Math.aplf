@@ -1,6 +1,6 @@
  sql←expression Math data;t;⎕PP
 ⍝∇ Generate the SQL text to call SQL functions and perform calculations involving field names
-⍝∇ that may need to use the Q utility on the field names before imbedding them in the formulas,
+⍝∇ that may need to use the Quote utility on the field names before imbedding them in the formulas,
 ⍝∇ but without having to deal with many confusing parentheses, commas, and quotes trying to
 ⍝∇ create such expressions in direct code.
 ⍝
@@ -22,7 +22,7 @@
 ⍝ (usually nested) vector of values, each of item of which should itself be in one of the
 ⍝ following structures:
 ⍝   * A single numeric value, to be used as a constant number in the expression.
-⍝   * A simple (unnested) text string, to be used as a SQL field name (processed with Q).
+⍝   * A simple (unnested) text string, to be used as a SQL field name (processed with Quote).
 ⍝   * A singly-nested text string, to be used as a text constant (enclosed in quotes).
 ⍝   * A double-nested text string is a pre-formatted string to be inserted exactly as-is.
 ⍝ (Since the primary purpose of this utility is to pass a single SQL field name to a single
@@ -58,7 +58,7 @@
 ⍝          'Left(⎕,Length(⎕)-1)' Math 'field' 'field'
 ⍝    Left(field,Length(field)-1)
 ⍝
-⍝ Subroutines required: Null, Q (w/ ∆dlt, ∆uc), ∆sew, ∆Q
+⍝ Subroutines required: Null, Quote (w/ ∆dlt, ∆uc), ∆sew, ∆Q
 ⍝ Written 30 November 2015 by Davin Church of Creative Software Design
 ⍝ Modified 11 December 2015 by Davin Church and Doug Neman of Creative Software Design
 ⍝ Converted to Dyalog 8 November 2019 by Davin Church of Creative Software Design
@@ -78,5 +78,5 @@
  data←({''''∆Q¨⊃¨⍵}@{t∊2.2})data ⍝ Singly-nested values are assumed to be text strings to be treated as constant text data
  data←({⊃¨⊃¨⍵}@{t∊3.3})data ⍝ Doubly-nested values are assumed to be text strings to be treated as pre-formatted arguments
  data←({⍕¨⍵}@{(10|t)∊1 3 5 7 9})data ⍝ Simple numeric values are encoded as constant numbers
- data←({'.'Q¨⍵}@{(10|t)∊0 2})data ⍝ Simple text values are assumed to be [table.]field names (most common usage)
+ data←({'.'Quote¨⍵}@{(10|t)∊0 2})data ⍝ Simple text values are assumed to be [table.]field names (most common usage)
  sql←⊃,/1↓,('⎕',⍕¨data),[1.5]1↓¨(+\'⎕'='⎕',expression)⊆'⎕',expression ⍝ Replace all the '⎕'s with massaged data

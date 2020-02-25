@@ -14,5 +14,5 @@
  :If 2=⎕NC'fields'
      :If 2=⍴⍴fields ⋄ fields←↓fields ⋄ :EndIf
      :If 1≥|≡fields ⋄ fields←⊂fields ⋄ :EndIf ⋄ fields←,,¨fields
-     sql,←' ','()'∆Q', '∆sew Q fields
+     sql,←' ','()'∆Q', '∆sew Quote fields
  :EndIf

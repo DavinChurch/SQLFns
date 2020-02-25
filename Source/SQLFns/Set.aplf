@@ -52,4 +52,4 @@
  :If ∨/t←(2≤|≡¨values)∧1<≢¨values ⋄ (t/values)←⊂¨(,¨⊃¨t/values)Math¨1↓¨t/values ⋄ :EndIf
  values←((⊂⊂'Null')@{(⎕UCS 0)∊¨⍵})((⊂⊂'Default')@{(⎕UCS 127)∊¨⍵})values
  :Trap 0 ⋄ values←(⊂q)∆csv¨⊂¨values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
- sql←' Set ',', '∆sew' = '∆sew('.'Q fields),[1.5]values
+ sql←' Set ',', '∆sew' = '∆sew('.'Quote fields),[1.5]values

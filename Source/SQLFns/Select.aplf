@@ -37,13 +37,13 @@
 ⍝   such as 'Distinct' or 'Top 5'.
 ⍝
 ⍝   If the left argument contains an '⍎' character (as a separate text item),
-⍝   that signals this function not to call "Q" on any of the field names.
+⍝   that signals this function not to call "Quote" on any of the field names.
 ⍝
-⍝ All field names and aliases will be checked for valid names using "Q", unless
-⍝ the "⍎" option is used in the left argument.  Further, "Q" will itself suppress
+⍝ All field names and aliases will be checked for valid names using "Quote", unless
+⍝ the "⍎" option is used in the left argument.  Further, "Quote" will itself suppress
 ⍝ quoting any name which itself contains the "⍎" character or is nested an extra
 ⍝ level deeper (the same depth as Math nesting).  A field name of '*' itself is
-⍝ never quoted by "Q", nor is any expression ending in '(*)'.
+⍝ never quoted by "Quote", nor is any expression ending in '(*)'.
 ⍝
 ⍝ Written 15 December 2011 by Davin Church and Doug Neman of Creative Software Design
 ⍝ Modified 19 December 2015 by Davin Church of Creative Software Design
@@ -59,7 +59,7 @@
  :If 1≥|≡fields ⋄ fields←⊂fields ⋄ :EndIf ⋄ fields←,,¨fields
  :If ∨/t←1=|≡¨fields ⋄ (t/fields)←∆dtr¨¨⌽¨¯2↑¨'←'∆cut¨t/fields ⋄ :EndIf
  :If ∨/t←2≥|≡¨fields
-     :If noquote ⋄ (t/fields)~¨←'⍎' ⋄ :Else ⋄ (t/fields)←↓'.'Q↑2↑¨t/fields ⋄ :EndIf
+     :If noquote ⋄ (t/fields)~¨←'⍎' ⋄ :Else ⋄ (t/fields)←↓'.'Quote↑2↑¨t/fields ⋄ :EndIf
  :EndIf
  :If ∨/t←3≤|≡¨fields
      (t/fields)←(⊂¨((⊃¨1⊃¨t/fields)Math¨1↓¨1⊃¨t/fields)~¨'⍎'),¨1↓¨t/fields
@@ -68,5 +68,3 @@
  :If ∨/~t ⋄ ((~t)/fields)←⊃¨(~t)/fields ⋄ :EndIf
 
  t←' '∆sew ∆dlt¨special ⋄ sql←'Select ',t,((×⍴t)/' '),', '∆sew fields
-
-⍝? A nested field name is getting confused at alias time -- can't reproduce [in older version]

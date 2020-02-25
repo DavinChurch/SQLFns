@@ -1,4 +1,4 @@
- newwords←{dot}Q words;t;simple;legal;x;w;q;rw;lc;ss
+ newwords←{dot}Quote words;t;simple;legal;x;w;q;rw;lc;ss
 ⍝∇ Enclose illegal or reserved word(s) in SQL escape-quote marks
 ⍝ Database configuration settings contained in global: Config
 ⍝ Optional left argument is a "." character.  If provided, cut words on dots and quote each subword.
@@ -17,7 +17,7 @@
  :For x :In (∨/w)/ss ⋄ (((∊w/,newwords)∊⊃x)/∊w/,newwords)←⊃⌽x ⋄ :EndFor
  :If ∨/t←w∧,(1∊¨newwords∊¨⊂dot)∧~'⍎'∊¨newwords
      x←(⊃dot),¨t/,newwords ⋄ x←(x∊¨⊂dot)⊂¨x
-     (t/,newwords)←1↓¨∆sew¨(1↑¨¨x),¨¨Q¨1↓¨¨x
+     (t/,newwords)←1↓¨∆sew¨(1↑¨¨x),¨¨Quote¨1↓¨¨x
  :EndIf
 
  w∧←(~t)∧,((∆uc newwords)∊rw)∨(~1↓[1]∧/¨1⍪newwords∊¨⊂legal)∨(⊃¨newwords)∊¨⊂(10+⍴lc)↑legal

@@ -176,7 +176,7 @@
 ⍝   davin In ('A', 'B', 'C')
 ⍝
 ⍝
-⍝ Subroutines required:  And, Null, Or, Q, ∆Q, ∆csv, ∆dtr
+⍝ Subroutines required:  And, Null, Or, Quote, ∆Q, ∆csv, ∆dtr
 ⍝ Subroutines sometimes needed:  Get (w/subroutines), Math (w/subroutines), ∆dlt, ∆sew, ∆uc
 ⍝
 ⍝ Written about 1999 by Davin Church of Creative Software Design
@@ -203,7 +203,7 @@
  t←'↑⍬⍞*⍟⍎÷~=≠<≤≥>→←∊⍷' ⋄ :If '⍎'∊fieldname ⋄ t←t~'=<>*' ⋄ :EndIf ⍝ Options
  op←(t∊fieldname)/t ⋄ op←op,(0∊⍴op~'↑⍬⍞*⍟⍎~÷')/'='
  origfield←fieldname ⋄ fieldname←∆dlt fieldname~t
- :If (×⍴fieldname)∧~'⍎'∊op ⋄ fieldname←'.'Q fieldname ⋄ :EndIf
+ :If (×⍴fieldname)∧~'⍎'∊op ⋄ fieldname←'.'Quote fieldname ⋄ :EndIf
  'Conflicting comparison operations'⎕SIGNAL 11/⍨1≠≢op~'↑⍬⍞*⍟⍎~÷'
  'Conflicting "Like" ("*"/"⍟") operations'⎕SIGNAL 11/⍨∧/'*⍟'∊op
  :If upper←'↑'∊op ⋄ fieldname←'Upper(',fieldname,')' ⋄ :EndIf
