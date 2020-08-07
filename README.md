@@ -20,6 +20,8 @@ Herein is provided just such a toolkit that can be included in an application (a
 
 # Repository Organization
 
+This is a member of the APLTree project at https://github.com/aplteam/apltree.
+
 ## The Distribution Directory
 
 This directory contains a workspace copy of the code for those that desire that form.  Other old distribution options are available as a .dyapp file and a .dyalog namespace script.  However, it is expected that most distribution will be done with the individual source code text files in the Source directory.
