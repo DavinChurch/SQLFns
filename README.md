@@ -26,7 +26,7 @@ This directory contains a workspace copy of the code for those that desire that 
 
 ## The Documentation Directory
 
-This directory contains a PDF file with extensive documentation on the toolkit and its components.  It begins with an introduction to both this toolkit and over-simplified basics of the SQL language.  Following that is a detailed description of each one of the public routines, each with examples of use.  This is reference material on how to use each routine but it is described more conversationally than technically, or in the more complicated cases a tutorial-style description is used for better explanation.  A short area about package internals follows, for those that need it.  The last chapter is a quick reference guide on the syntax of each of the public routines for easy reference when a reminder is needed.
+This directory contains a PDF file with extensive documentation on the toolkit and its components.  It begins with an introduction to this toolkit and how its routines correspond to the common SQL clauses.  Following that is a detailed description of each one of the public routines, each with examples of use.  This is reference material on how to use each routine but it is described more conversationally than technically, or in the more complicated cases a tutorial-style discussion is used as an aid in comprehension.  A short section about toolkit internals follows, for those that would like to know.  The last chapter is a quick reference guide on the syntax and purpose of each of the public routines for easy reference when a reminder of usage is needed.
 
 ## The Source/SQLFns Directory
 
