@@ -28,11 +28,11 @@ This directory contains a workspace copy of the code for those that desire that 
 
 This directory contains a PDF file with extensive documentation on the toolkit and its components.  It begins with an introduction to both this toolkit and over-simplified basics of the SQL language.  Following that is a detailed description of each one of the public routines, each with examples of use.  This is reference material on how to use each routine but it is described more conversationally than technically, or in the more complicated cases a tutorial-style description is used for better explanation.  A short area about package internals follows, for those that need it.  The last chapter is a quick reference guide on the syntax of each of the public routines for easy reference when a reminder is needed.
 
-## The Source\SQLFns Directory
+## The Source/SQLFns Directory
 
 This directory is intended to be imported as a complete namespace and contains all the code needed to use this package.  It contains no external dependencies.  Most function names are identical to the SQL keywords which they support.  For instance, the `Select` function formats the SQL Select clause.  Additional routines are provided for composite commands or general utility use.
 
-## The Source\SQLTesting Directory
+## The Source/SQLTesting Directory
 
 This directory is its own namespace which contains facilities for testing all the SQLFns functions, which are expected to be found in the #.SQLFns namespace.  This code is provided only for testing the main toolkit and is not needed for any application use.
 
@@ -40,7 +40,7 @@ Most of the functions herein are named after the corresponding public routines i
 
 ### Testing engine
 
-The testing engine itself is also included in this namespace.  It consists of three standalone operators.  These may be extracted separately and used for simple argument/result testing anywhere.  The left operand of each operator is the function to be tested.  The right operand is the expected result.  The derived function uses the provided left and right arguments and passes them directly to the function being tested.  The three routines are:
+The testing engine itself is also resident in this namespace.  It consists of three standalone operators.  These may be extracted separately and used for simple argument/result testing anywhere.  The left operand of each operator is the function to be tested.  The right operand is the expected result.  The derived function uses the provided left and right arguments and passes them directly to the function being tested.  The three routines are:
 
 Tester | Used to...
 ------ | ----------
