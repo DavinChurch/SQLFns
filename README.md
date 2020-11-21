@@ -34,7 +34,7 @@ This directory contains a PDF file with extensive documentation on the toolkit a
 
 This directory is intended to be imported as a complete namespace and contains all the code needed to use this package.  It contains no external dependencies.  Most function names are identical to the SQL keywords which they support.  For instance, the `Select` function formats the SQL Select clause.  Additional routines are provided for composite commands or general utility use.
 
-## The Source/SQLTesting Directory
+## The Source/Testing Directory
 
 This directory is its own namespace which contains facilities for testing all the SQLFns functions, which are expected to be found in the #.SQLFns namespace.  This code is provided only for testing the main toolkit and is not needed for any application use.
 
@@ -58,7 +58,7 @@ These routines all respect the setting of an optional global variable named `Sto
 `2` | Stop in the tested function at the original error without any error trapping.
 `¯1` | Do not stop, and increment global variable "Errors" if it exists.
 
-#### Writing testing functions
+#### Writing new testing functions
 Create one or more functions with any desired names that uses these operators for each function call to be tested.  For instance, if a function to be tested is:
 ```
       3 Plus 4
