@@ -10,4 +10,4 @@
  'Cannot Update joined tables'⎕SIGNAL 11/⍨1<≢table
  'Cannot Update joined tables'⎕SIGNAL 11/⍨∨/'→><≠∘='∊⊃table
  'Cannot Update joined tables'⎕SIGNAL 11/⍨∨/'(,)'∊⊃table
- :Trap 0 ⋄ sql←'Update',5↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
+ :Trap 0 ⋄ sql←'Update',5↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap

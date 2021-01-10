@@ -1,4 +1,4 @@
- sql←Ins clauses;table;values;fields
+sql←Ins clauses;table;values;fields
 ⍝∇ Generate a SQL Insert command from its component clauses, by calling
 ⍝∇ Insert and Values and catenating the results together.
 ⍝

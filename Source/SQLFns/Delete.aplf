@@ -11,4 +11,4 @@
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨1<≢table
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨∨/'→><≠∘='∊⊃table
  'Cannot Delete from joined tables'⎕SIGNAL 11/⍨∨/'(,)'∊⊃table
- :Trap 0 ⋄ sql←'Delete',From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
+ :Trap 0 ⋄ sql←'Delete',From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap

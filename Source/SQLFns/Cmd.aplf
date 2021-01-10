@@ -33,5 +33,5 @@
      :If 1=⍴right ⋄ right←⊃right ⋄ :EndIf ⋄ fn~←'⍵'
  :EndIf
 ⍝ Now call the subroutine they requested (assuming there's no local-variable shadowing)
- :Trap 0 ⋄ sql←⍎(dyad/'left '),fn,' right' ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
+ :Trap 0 ⋄ sql←⍎(dyad/'left '),fn,' right' ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
 ⍝? Allow for an '⍎' option to run arbitrary code??

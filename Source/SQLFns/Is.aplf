@@ -1,4 +1,4 @@
- sql←fieldname Is starpattern;t;pat;origfield;q;dr;num;op;sop;upper;wild;asis;likeonly;nolike;⎕PP;math;zilde;tcnul
+sql←fieldname Is starpattern;t;pat;origfield;q;dr;num;op;sop;upper;wild;asis;likeonly;nolike;⎕PP;math;zilde;tcnul
 ⍝∇ Change a (possibly "wildcarded") search request to a SQL "WHERE" phrase
 ⍝∇ using '=' (equals), 'IN', 'LIKE', or 'BETWEEN', or 'NOT' versions of
 ⍝∇ these, or inequalities ('<', '<=', '>=', '>').  Also supports testing

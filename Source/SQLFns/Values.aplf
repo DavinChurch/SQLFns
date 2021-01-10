@@ -22,7 +22,7 @@
  'Data Rank Error'⎕SIGNAL 4/⍨∨/((~n)+t←n∨t∊0 2)<≢¨⍴¨values
  (t/values)←,¨t/values ⋄ ((~t)/values)←⊃¨(~t)/values ⍝ Coerce ranks
  values←((⊂⊂'Null')@{⍵∊⎕UCS 0})((⊂⊂'Default')@{⍵∊⎕UCS 127})values
- :Trap 0 ⋄ sql←'()'∆Q q', '∆csv rho⍴values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
+ :Trap 0 ⋄ sql←'()'∆Q q', '∆csv rho⍴values ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
  :If 1<|≡sql ⋄ sql←', '∆sew sql ⋄ :EndIf ⋄ sql←' Values ',sql
 
 ⍝? Allow use of deeply-nested data to call Math internally?

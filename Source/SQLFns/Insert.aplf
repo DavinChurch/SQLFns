@@ -1,4 +1,4 @@
- sql←{fields}Insert table
+sql←{fields}Insert table
 ⍝∇ Produce a SQL INSERT clause with single table name & optional field names.
 ⍝
 ⍝ Written 15 December 2011 by Davin Church and Doug Neman of Creative Software Design

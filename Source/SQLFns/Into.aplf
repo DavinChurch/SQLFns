@@ -11,4 +11,4 @@
  'Into cannot be done into multiple tables'⎕SIGNAL 11/⍨1<≢table
  'Into cannot be done into multiple tables'⎕SIGNAL 11/⍨∨/'→><≠∘='∊⊃table
  'Joined fields not permitted in a single table'⎕SIGNAL 11/⍨∨/'(,)'∊⊃table
- :Trap 0 ⋄ sql←' Into ',6↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⍬ ⋄ :EndTrap
+ :Trap 0 ⋄ sql←' Into ',6↓From table ⋄ :Else ⋄ ⎕SIGNAL ∆dmx ⋄ :EndTrap
