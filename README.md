@@ -34,6 +34,10 @@ This directory contains a PDF file with extensive documentation on the toolkit a
 
 This directory is intended to be imported as a complete namespace and contains all the code needed to use this package.  It contains no external dependencies.  Most function names are identical to the SQL keywords which they support.  For instance, the `Select` function formats the SQL Select clause.  Additional routines are provided for composite commands or general utility use.
 
+## The Source/SQLFns/API Directory
+
+This directory contains only references to the actual SQLFns code.  It is here only to provide a limited API interface point for use by the Tatin package manager. This namespace is not needed at all if the code is being imported without using Tatin.
+
 ## The Source/Testing Directory
 
 This directory is its own namespace which contains facilities for testing all the SQLFns functions, which are expected to be found in the #.SQLFns namespace.  This code is provided only for testing the main toolkit and is not needed for any application use.
