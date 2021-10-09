@@ -2,7 +2,7 @@
 
 This document introduces a Dyalog APL toolkit for constructing text SQL commands from individual data values, using proper SQL syntax, without the programmer needing to remember the exact syntax for each command term.  It provides a simplified method of constructing such commands that is much shorter and easier than building the statements with ordinary text strings and improves readability and reduces syntactical and typographical errors.
 
-This toolkit and documentation is intended for use by reasonably experienced APL programmers that have a basic grasp of using a SQL database.  It is designed to make their planned use of SQL easier rather than to teach them how to use SQL or convince them to use SQL.  Fortunately, the programmer need not understand very much about the SQL syntax in order to use this toolkit.  Generally, the programmer should know what commands like Select do and how to construct them out of the typical parts (such as Select, From, and Where).  This toolkit is modeled on the same syntax as SQL and just takes care of the detail formatting of the individual parts for most commands.
+This toolkit and documentation is intended for use by reasonably experienced APL programmers that have a basic grasp of using a SQL database.  It is designed to make their planned use of SQL easier rather than to teach them how to use SQL or convince them to use SQL.  Fortunately, the programmer need not understand very much about the SQL syntax in order to use this toolkit.  Generally, the programmer should know what SQL commands like **Select** do and how to construct them out of the typical parts (such as **Select**, **From**, and **Where**).  This toolkit is modeled on the same syntax as SQL and just takes care of the detail formatting of the individual parts for most commands.
 
 These tools do not actually interface with a SQL database themselves but simply construct the commands that are then passed to whatever SQL interface and database that has been chosen to use for the application.
 
@@ -20,11 +20,11 @@ Herein is provided just such a toolkit that can be included in an application (a
 
 # Repository Organization
 
-This is a member of the APLTree project at https://github.com/aplteam/apltree.
+This is a member of the [APLTree project](https://github.com/aplteam/apltree) and is also available via the [Tatin package manager](https://github.com/aplteam/Tatin).
 
 ## The Distribution Directory
 
-This directory contains a workspace copy of the code for those that desire that form.  However, it is expected that most distribution will be done with the individual source code text files in the Source directory.
+This directory contains a workspace copy of the code for those that desire that form.  However, it is expected that most distribution will be done with the individual source code text files in the Source directory. A namespace script is also available here for those that prefer that distribution mechanism.
 
 ## The Documentation Directory
 
@@ -32,11 +32,11 @@ This directory contains a PDF file with extensive documentation on the toolkit a
 
 ## The Source/SQLFns Directory
 
-This directory is intended to be imported as a complete namespace and contains all the code needed to use this package.  It contains no external dependencies.  Most function names are identical to the SQL keywords which they support.  For instance, the `Select` function formats the SQL Select clause.  Additional routines are provided for composite commands or general utility use.
+This directory is intended to be imported as a complete namespace and contains all the code needed to use this package.  It contains no external dependencies.  Most function names are identical to the SQL keywords which they support.  For instance, the `Select` function formats the SQL **Select** clause.  Additional routines are provided for composite commands or general utility use. A few other functions (with names beginning with "∆") are present in this namespace for internal use only rather than public use.
 
 ## The Source/SQLFns/API Directory
 
-This directory contains only references to the actual SQLFns code.  It is here only to provide a limited API interface point for use by the Tatin package manager. This namespace is not needed at all if the code is being imported without using Tatin.
+This directory contains only references to the actual SQLFns code.  It is here only to provide a limited API interface point for use by the [Tatin package manager](https://github.com/aplteam/Tatin). This namespace is not needed at all if the code is being imported without using Tatin.
 
 ## The Source/Testing Directory
 
@@ -44,4 +44,4 @@ This directory is its own namespace which contains facilities for testing all th
 
 Most of the functions herein are named after the corresponding public routines in SQLFns.  Simply execute the desired function here to test the corresponding SQLFns routine.  If multiple functions are to be tested, the `Test` function may be invoked with a list of function names (in almost any reasonable structure and format) as a right argument.  These names may include an `*` wild-card character, so `Test '*'` will execute all the functions in the workspace.
 
-For more details on using `Test` and the testing engine, see the `Tester` package in the companion repository.
+For more details on using `Test` and the testing engine, see the [Tester package](https://github.com/DavinChurch/Tester) in the companion repository.
