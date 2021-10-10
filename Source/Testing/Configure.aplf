@@ -1,0 +1,6 @@
+Configure;fn
+ fn←#.SQLFns.Configure
+ (fn Pass{(⎕ucs 13)∊⍵})''
+ (fn Pass 'Database configuration is already set to MSSQLServer')'MSSQLServer'
+ (fn Pass 'Database configuration has been changed to PervasiveSQL')'PervasiveSQL'
+ (fn Pass 'Database configuration has been changed to MSSQLServer')'MSSQLServer'
