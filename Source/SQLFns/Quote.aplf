@@ -11,7 +11,7 @@
 
  q←'""' ⋄ lc←'_' ⋄ rw←ss←0⍴⊂'' ⋄ :If ×⎕NC'Config' ⋄ q lc ss rw←Config[3 2 6 9] ⋄ :EndIf
  :If simple←1≥|≡words ⋄ words←⊂,words ⋄ :EndIf ⋄ words←,¨words
- :If 0=⎕NC'dot' ⋄ dot←'' ⋄ :EndIf ⋄ legal←lc,⎕D,⎕A,819⌶⎕A
+ :If 0=⎕NC'dot' ⋄ dot←'' ⋄ :EndIf ⋄ legal←lc,⎕D,⎕A,¯1 ∆uc ⎕A
  :If ∨/~w←,1≥|≡¨words ⋄ ((~w)/,words)←⊃¨(~w)/,words ⋄ :EndIf
  newwords←∆dlt¨words ⍝ Don't allow leading or trailing spaces on names
  :For x :In (∨/w)/ss ⋄ (((∊w/,newwords)∊⊃x)/∊w/,newwords)←⊃⌽x ⋄ :EndFor

@@ -1059,7 +1059,7 @@ Config∆SQLite←(('Config[1] ← This description (for self-documentation only
  :If 1 3 5 7 9∊⍨10|⎕DR data ⋄ data←,¨data ⋄ :EndIf ⍝ Make sure numbers are separated
  :If 1≥|≡data ⋄ data←⊂,data ⋄ :EndIf ⋄ data←,data ⍝ Nest single text arguments
      
- :If (×⍴expression)∧∧/expression∊'_',⎕D,⎕A,819⌶⎕A ⍝ They just provided a function name without any syntax
+ :If (×⍴expression)∧∧/expression∊'_',⎕D,⎕A,¯1 ∆uc ⎕A ⍝ They just provided a function name without any syntax
      expression←expression,'()'∆Q(¯1+2×⍴data)⍴'⎕,' ⍝ Assume they meant to add all these as parameters to a single fn call
  :EndIf
  ('Unequal number of parentheses in expression syntax: ',expression)⎕SIGNAL 11/⍨≠/+/'()'∘.=expression
@@ -1151,7 +1151,7 @@ Config∆SQLite←(('Config[1] ← This description (for self-documentation only
      
  q←'""' ⋄ lc←'_' ⋄ rw←ss←0⍴⊂'' ⋄ :If ×⎕NC'Config' ⋄ q lc ss rw←Config[3 2 6 9] ⋄ :EndIf
  :If simple←1≥|≡words ⋄ words←⊂,words ⋄ :EndIf ⋄ words←,¨words
- :If 0=⎕NC'dot' ⋄ dot←'' ⋄ :EndIf ⋄ legal←lc,⎕D,⎕A,819⌶⎕A
+ :If 0=⎕NC'dot' ⋄ dot←'' ⋄ :EndIf ⋄ legal←lc,⎕D,⎕A,¯1 ∆uc ⎕A
  :If ∨/~w←,1≥|≡¨words ⋄ ((~w)/,words)←⊃¨(~w)/,words ⋄ :EndIf
  newwords←∆dlt¨words ⍝ Don't allow leading or trailing spaces on names
  :For x :In (∨/w)/ss ⋄ (((∊w/,newwords)∊⊃x)/∊w/,newwords)←⊃⌽x ⋄ :EndFor
@@ -1432,7 +1432,7 @@ Config∆SQLite←(('Config[1] ← This description (for self-documentation only
      
      ⍝ Prepare the variable names for use and check proper localization
  (((∊names)∊'~∧')/∊names)←'∆' ⋄ (((∊names)∊' ')/∊names)←'_' ⍝ Convert to legal variable names
- ((~(∊names)∊'∆⍙_¯',⎕D,⎕A,819⌶⎕A)/∊names)←'⍙' ⍝ Convert to legal variable names
+ ((~(∊names)∊'∆⍙_¯',⎕D,⎕A,¯1 ∆uc ⎕A)/∊names)←'⍙' ⍝ Convert to legal variable names
  'Domain Error (Names) - Unable to assign'⎕SIGNAL 11/⍨~∧/(⎕RSI[1].⎕NC↑names)∊0 2
      
      ⍝ Data and variables are checked and ready - make the assignments
@@ -1757,6 +1757,6 @@ Config∆SQLite←(('Config[1] ← This description (for self-documentation only
  :If 1=⍴⍴values ⋄ text←⊃text ⋄ :Else ⋄ text←1↓[1]text ⋄ :EndIf
 ∇
 
- ∆uc←{0∊⍴⍵:⍵ ⋄ 1(819⌶)⍵}
+ ∆uc←{⍺←1⌈¯1 ⋄ 18≤2⊃⎕VFI 4↑2⊃'.'⎕WG'APLVersion':(⍺-⍺=0)⎕C ⍵ ⋄ 0∊⍴⍵:⍵ ⋄ (0⌈⍺)(819⌶)⍵}
 
 :EndNamespace 
